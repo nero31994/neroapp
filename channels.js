@@ -1,5 +1,10 @@
 
 const channels = {
+    natgeowild: {
+        name: 'NAT GEO WILD',
+        url: '212.102.60.231/Nat_Geo_Wild/index.m3u8',
+        type: 'hls'
+         },
 	  pba_rush_hd: {
         name: 'PBA RUSH',
         url: 'https://qp-pldt-live-grp-01-prod.akamaized.net/out/u/cg_pbarush_hd1.mpd',
