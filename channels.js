@@ -1,7 +1,7 @@
 
 const channels = {
 	  pba_rush_hd: {
-        name: 'PBA RUSH'<img src="https://upload.wikimedia.org/wikipedia/en/c/cd/PBA_Rush_logo.png" alt="PBA RUSH" />,
+        name: 'PBA RUSH',
         url: 'https://qp-pldt-live-grp-01-prod.akamaized.net/out/u/cg_pbarush_hd1.mpd',
         keyId: '76dc29dd87a244aeab9e8b7c5da1e5f3',
         key: '95b2f2ffd4e14073620506213b62ac82',
