@@ -6,7 +6,12 @@ const channels = {
         keyId: '76dc29dd87a244aeab9e8b7c5da1e5f3',
         key: '95b2f2ffd4e14073620506213b62ac82',
 		type: 'mpd'
-    },	 
+    }, 
+    wwe: {
+        name: 'WWE',
+        url: 'http://212.102.60.231/WWE/tracks-v1a1/mono.m3u8',
+        type: 'hls'
+         },
     nbatv: {
         name: 'NBA TV',
         url: 'https://cdn09jtedge.indihometv.com/joss/133/nba/chunklist_w224616247_b444100_sleng.m3u8',
