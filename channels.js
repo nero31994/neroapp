@@ -9,7 +9,7 @@ const channels = {
     },	 
     nbatv: {
         name: 'NBA TV',
-        url: 'https://cinemo-abscbn-ono.amagi.tv/playlist.m3u8',
+        url: 'https://cdn09jtedge.indihometv.com/joss/133/nba/chunklist_w224616247_b444100_sleng.m3u8',
         type: 'hls'
          },
     tv5: {
