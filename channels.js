@@ -6,7 +6,12 @@ const channels = {
         keyId: '76dc29dd87a244aeab9e8b7c5da1e5f3',
         key: '95b2f2ffd4e14073620506213b62ac82',
 		type: 'mpd'
-    },
+    },	 
+    nbatv: {
+        name: 'NBA TV',
+        url: 'https://cinemo-abscbn-ono.amagi.tv/playlist.m3u8',
+        type: 'hls'
+         },
     tv5: {
         name: 'TV5',
         url: 'https://qp-pldt-live-grp-02-prod.akamaized.net/out/u/tv5_hd.mpd',
