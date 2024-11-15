@@ -2,12 +2,12 @@
 const channels = {
 	    GMA: {
         name: 'GMA',
-        url: 'http://115.146.176.131:80/live/TimRizal/TimRizal/14.m3u8',
+        url: 'http://115.146.176.131:80/live/TimRizal/TimRizal/14',
         type: 'hls'
          },
     kapamilya: {
         name: 'KAPAMILYA',
-        url: 'http://115.146.176.131:80/live/TimRizal/TimRizal/89.m3u8',
+        url: 'http://115.146.176.131:80/live/TimRizal/TimRizal/89',
         type: 'hls'
          },    natgeowild: {
         name: 'NAT GEO WILD',
