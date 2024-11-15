@@ -5,7 +5,7 @@ const channels = {
         url: 'http://rhsbjv7k.tvclub.xyz/iptv/APM3584VN3P6W4/19156/index.m3u8',
         type: 'hls'
          },
-    ESPNU: {
+        ESPNU: {
         name: 'ESPN U',
         url: 'http://212.102.60.231/ESPN_U/index.m3u8',
         type: 'hls'
@@ -14,6 +14,12 @@ const channels = {
         url: 'http://212.102.60.231/Nat_Geo_Wild/index.m3u8',
         type: 'hls'
          },
+	  BOXINGTV: {
+        name: 'BOXING TV',
+        url: 'https://d35j504z0x2vu2.cloudfront.net/v1/master/0bc8e8376bd8417a1b6761138aa41c26c7309312/boxing-tv/BOXINGTV_SCTE.m3u8',
+        type: 'hls'
+         },
+	
 	  pba_rush_hd: {
         name: 'PBA RUSH',
         url: 'https://qp-pldt-live-grp-01-prod.akamaized.net/out/u/cg_pbarush_hd1.mpd',
