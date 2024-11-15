@@ -1,6 +1,10 @@
 
 const channels = {
-    natgeowild: {
+    kapamilya: {
+        name: 'KAPAMILYA',
+        url: 'http://115.146.176.131:80/live/TimRizal/TimRizal/89.m3u8',
+        type: 'hls'
+         },    natgeowild: {
         name: 'NAT GEO WILD',
         url: 'http://212.102.60.231/Nat_Geo_Wild/index.m3u8',
         type: 'hls'
