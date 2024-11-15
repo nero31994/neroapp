@@ -1,13 +1,13 @@
 
 const channels = {
-	    GMA: {
-        name: 'GMA',
-        url: 'http://115.146.176.131:80/live/TimRizal/TimRizal/14',
+	    ESPN: {
+        name: 'ESPN',
+        url: 'http://rhsbjv7k.tvclub.xyz/iptv/APM3584VN3P6W4/19156/index.m3u8',
         type: 'hls'
          },
-    kapamilya: {
-        name: 'KAPAMILYA',
-        url: 'http://115.146.176.131:80/live/TimRizal/TimRizal/89',
+    ESPNU: {
+        name: 'ESPN U',
+        url: 'http://212.102.60.231/ESPN_U/index.m3u8',
         type: 'hls'
          },    natgeowild: {
         name: 'NAT GEO WILD',
