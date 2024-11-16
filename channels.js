@@ -7,11 +7,11 @@ const channels = {
          },
         ESPNU: {
         name: 'ESPN U',
-        url: 'http://212.102.60.231/ESPN_U/index.m3u8',
+        url: '212.102.60.231/ESPN_U/index.m3u8',
         type: 'hls'
          },    natgeowild: {
         name: 'NAT GEO WILD',
-        url: 'http://212.102.60.231/Nat_Geo_Wild/index.m3u8',
+        url: '212.102.60.231/Nat_Geo_Wild/index.m3u8',
         type: 'hls'
          },
 	  BOXINGTV: {
@@ -29,7 +29,7 @@ const channels = {
     }, 
     wwe: {
         name: 'WWE',
-        url: 'http://212.102.60.231/WWE/tracks-v1a1/mono.m3u8',
+        url: '212.102.60.231/WWE/tracks-v1a1/mono.m3u8',
         type: 'hls'
          },
     nbatv: {
