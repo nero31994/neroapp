@@ -1,8 +1,8 @@
 
 const channels = {
-	    ESPN: {
-        name: 'ESPN',
-        url: 'http://rhsbjv7k.tvclub.xyz/iptv/APM3584VN3P6W4/19156/index.m3u8',
+	    PPV: {
+        name: 'PPV TYSON VS PAUL',
+        url: 'https://dc.vipstreams.in/paulvstyson/tracks-v1a1/mono.m3u8',
         type: 'hls'
          },
         ESPNU: {
