@@ -10,8 +10,8 @@ const channels = {
         url: 'https://cdn09jtedge.indihometv.com/joss/133/fightsport/index.m3u8',
         type: 'hls'
          },    natgeowild: {
-        name: 'NAT GEO WILD',
-        url: '212.102.60.231/Nat_Geo_Wild/index.m3u8',
+        name: 'REDBULL TV',
+        url: 'https://db38umy8gexon.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-f561zwy85csh9/playlist.m3u8?ads.device_did=%7BPSID%7D&ads.device_dnt=%7BTAR',
         type: 'hls'
          },
 	  BOXINGTV: {
@@ -28,8 +28,8 @@ const channels = {
 		type: 'mpd'
     }, 
     wwe: {
-        name: 'WWE',
-        url: '212.102.60.231/WWE/tracks-v1a1/mono.m3u8',
+        name: 'PBS KIDS',
+        url: 'https://cdn.klowdtv.net/803B48A/n1.klowdtv.net/live2/gsn_720p/playlist.m3u8',
         type: 'hls'
          },
     nbatv: {
