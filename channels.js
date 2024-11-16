@@ -1,8 +1,8 @@
 
 const channels = {
-	    PPV: {
-        name: 'PPV TYSON VS PAUL',
-        url: 'https://dc.vipstreams.in/paulvstyson/tracks-v1a1/mono.m3u8',
+	    GMA: {
+        name: 'GMA',
+        url: 'https://ythls.armelin.one/channel/UCKL5hAuzgFQsyrsQKgU0Qng.m3u8',
         type: 'hls'
          },
         ESPNU: {
