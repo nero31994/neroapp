@@ -6,8 +6,8 @@ const channels = {
         type: 'hls'
          },
         ESPNU: {
-        name: 'ESPN U',
-        url: '212.102.60.231/ESPN_U/index.m3u8',
+        name: 'FIGHT SPORTS',
+        url: 'https://cdn09jtedge.indihometv.com/joss/133/fightsport/index.m3u8',
         type: 'hls'
          },    natgeowild: {
         name: 'NAT GEO WILD',
