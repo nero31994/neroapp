@@ -1,15 +1,19 @@
 
 const channels = {
-	    GMA: {
-        name: 'GMA',
-        url: 'https://ythls.armelin.one/channel/UCKL5hAuzgFQsyrsQKgU0Qng.m3u8',
-        type: 'hls'
-         },
-        ESPNU: {
+	  
+         WWE: {
+        name: 'WWE',
+        url: 'https://akam.stream.peacocktv.com/Content/CMAF_CTR-4s/Live/channel(vc106wh3yw)/master.mpd',
+        keyId: '00208c93f4358213b52220898b962385',
+        key: '8ae6063167228e350dd132d4a1573102',
+		type: 'mpd'
+    }, 
+        fightsport: {
         name: 'FIGHT SPORTS',
         url: 'https://cdn09jtedge.indihometv.com/joss/133/fightsport/index.m3u8',
         type: 'hls'
-         },    natgeowild: {
+         },   
+	redbull: {
         name: 'REDBULL TV',
         url: 'https://db38umy8gexon.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-f561zwy85csh9/playlist.m3u8?ads.device_did=%7BPSID%7D&ads.device_dnt=%7BTAR',
         type: 'hls'
@@ -27,7 +31,7 @@ const channels = {
         key: '95b2f2ffd4e14073620506213b62ac82',
 		type: 'mpd'
     }, 
-    wwe: {
+     wwe: {
         name: 'PBS KIDS',
         url: 'https://cdn.klowdtv.net/803B48A/n1.klowdtv.net/live2/gsn_720p/playlist.m3u8',
         type: 'hls'
