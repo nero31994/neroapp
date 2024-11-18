@@ -1,6 +1,10 @@
 
 const channels = {
-	  
+	SMNI: {
+        name: 'SMNI',
+        url: 'https://1a-1791.com/live/za4hy30t/slot-139/uiik-j0b1_1080p/chunklist_DVR.m3u8',
+        type: 'hls'
+         },  
          WWE: {
         name: 'WWE',
         url: 'https://akam.stream.peacocktv.com/Content/CMAF_CTR-4s/Live/channel(vc106wh3yw)/master.mpd',
