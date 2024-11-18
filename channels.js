@@ -1,5 +1,10 @@
 
 const channels = {
+	AMC: {
+        name: 'AMC+',
+        url: 'https://1a-1791.com/live/za4hy30t/slot-139/uiik-j0b1_1080p/chunklist_DVR.m3u8',
+        type: 'hls'
+         },  
 	SMNI: {
         name: 'SMNI',
         url: 'https://1a-1791.com/live/za4hy30t/slot-139/uiik-j0b1_1080p/chunklist_DVR.m3u8',
