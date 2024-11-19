@@ -1,5 +1,20 @@
 
 const channels = {
+		mp_tv: {
+    name: 'MPTV',
+        url: 'https://qp-pldt-live-grp-09-prod.akamaized.net/out/u/cg_mptv.mpd',
+        keyId: '6aab8f40536f4ea98e7c97b8f3aa7d4e',
+        key: '139aa5a55ade471faaddacc4f4de8807',
+		type: 'mpd'
+    },
+	a2z: {
+    name: 'A2Z',
+        url: 'https://qp-pldt-live-grp-02-prod.akamaized.net/out/u/cg_a2z.mpd',
+        keyId: 'f703e4c8ec9041eeb5028ab4248fa094',
+        key: 'c22f2162e176eee6273a5d0b68d19530',
+		type: 'mpd'
+    },
+
 	depedchannel: {
     name: 'DEP ED CHANNEL',
         url: 'https://qp-pldt-live-grp-07-prod.akamaized.net/out/u/depedch_sd.mpd',
@@ -324,20 +339,6 @@ onenews_hd: {
         url: 'https://qp-pldt-live-grp-13-prod.akamaized.net/out/u/dr_popupppvhd.mpd',
         keyId: '286e1c2d622c4c73b5c3d72e4a848abd',
         key: 'b7fad67599c1ce3c2fbc9d02b901be05',
-		type: 'mpd'
-    },
-	mp_tv: {
-    name: 'MPTV',
-        url: 'https://qp-pldt-live-grp-09-prod.akamaized.net/out/u/cg_mptv.mpd',
-        keyId: '6aab8f40536f4ea98e7c97b8f3aa7d4e',
-        key: '139aa5a55ade471faaddacc4f4de8807',
-		type: 'mpd'
-    },
-	a2z: {
-    name: 'A2Z',
-        url: 'https://qp-pldt-live-grp-02-prod.akamaized.net/out/u/cg_a2z.mpd',
-        keyId: 'f703e4c8ec9041eeb5028ab4248fa094',
-        key: 'c22f2162e176eee6273a5d0b68d19530',
 		type: 'mpd'
     },
 	dreamworks_hd: {
