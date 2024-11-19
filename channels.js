@@ -1,5 +1,8 @@
 
 const channels = {
+	LOCAL: {
+	name: 'LOCAL CHANNELS' 
+	},
 		mp_tv: {
     name: 'MPTV',
         url: 'https://qp-pldt-live-grp-09-prod.akamaized.net/out/u/cg_mptv.mpd',
