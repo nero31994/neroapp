@@ -1,16 +1,16 @@
 
 const channels = {
 	LOCAL: {
-	name: 'LOCAL CHANNELS' 
-	},
+	name: '🇵🇭LOCAL CHANNELS' 
+	, 
 		mp_tv: {
     name: 'MPTV',
         url: 'https://qp-pldt-live-grp-09-prod.akamaized.net/out/u/cg_mptv.mpd',
         keyId: '6aab8f40536f4ea98e7c97b8f3aa7d4e',
         key: '139aa5a55ade471faaddacc4f4de8807',
 		type: 'mpd'
-    },
-	a2z: {
+	} , 
+   a2z: {
     name: 'A2Z',
         url: 'https://qp-pldt-live-grp-02-prod.akamaized.net/out/u/cg_a2z.mpd',
         keyId: 'f703e4c8ec9041eeb5028ab4248fa094',
