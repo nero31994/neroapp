@@ -183,7 +183,7 @@ onenews_hd: {
          },
 	AMC: {
         name: 'AMC+',
-        url: 'https://1a-1791.com/live/za4hy30t/slot-139/uiik-j0b1_1080p/chunklist_DVR.m3u8',
+        url: 'https://bcovlive-a.akamaihd.net/ba853de442c140b7b3dc020001597c0a/us-east-1/6245817279001/profile_0/chunklist.m3u8',
         type: 'hls'
          },  
   
