@@ -3,7 +3,7 @@ const channels = {
 	LOCAL: {
 	name: '🇵🇭LOCAL CHANNELS' 
 	}, 
-   nbatv: {
+   nbatvph: {
     name: 'NBA TV PH',
         url: 'https://qp-pldt-live-grp-02-prod.akamaized.net/out/u/pl_nba.mpd',
         keyId: 'f36eed9e95f140fabbc88a08abbeafff',
