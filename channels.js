@@ -199,6 +199,11 @@ onenews_hd: {
         url: 'https://cdn09jtedge.indihometv.com/joss/133/nba/chunklist_w224616247_b444100_sleng.m3u8',
         type: 'hls'
          },
+	nbatv2: {
+        name: 'NBA TV server:2',
+        url: 'http://mains.services/live/pmf0423/1aku0jt%40/2657e4ec-5654-43e4-a224-76209ede2f07.m3u8',
+        type: 'hls'
+         },
 	AMC: {
         name: 'AMC+',
         url: 'https://bcovlive-a.akamaihd.net/ba853de442c140b7b3dc020001597c0a/us-east-1/6245817279001/profile_0/chunklist.m3u8',
