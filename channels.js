@@ -3,13 +3,25 @@ const channels = {
 	LOCAL: {
 	name: '🇵🇭LOCAL CHANNELS' 
 	}, 
-		mp_tv: {
+   nbatv: {
+    name: 'NBA TV PH',
+        url: 'https://qp-pldt-live-grp-02-prod.akamaized.net/out/u/pl_nba.mpd',
+        keyId: 'f36eed9e95f140fabbc88a08abbeafff',
+        key: '0125600d0eb13359c28bdab4a2ebe75a',
+		type: 'mpd'
+	 },   
+   nbatv: {
+        name: 'NBA TV INDIHOME',
+        url: 'https://cdn09jtedge.indihometv.com/joss/133/nba/chunklist_w224616247_b444100_sleng.m3u8',
+        type: 'hls'
+         },
+	mp_tv: {
     name: 'MPTV',
         url: 'https://qp-pldt-live-grp-09-prod.akamaized.net/out/u/cg_mptv.mpd',
         keyId: '6aab8f40536f4ea98e7c97b8f3aa7d4e',
         key: '139aa5a55ade471faaddacc4f4de8807',
 		type: 'mpd'
-	} , 
+	}, 
    a2z: {
     name: 'A2Z',
         url: 'https://qp-pldt-live-grp-02-prod.akamaized.net/out/u/cg_a2z.mpd',
@@ -192,16 +204,6 @@ onenews_hd: {
      wwe: {
         name: 'PBS KIDS',
         url: 'https://cdn.klowdtv.net/803B48A/n1.klowdtv.net/live2/gsn_720p/playlist.m3u8',
-        type: 'hls'
-         },
-    nbatv2: {
-        name: 'NBA TV',
-        url: 'http://212.102.60.231/NBA_TV/tracks-v1a1/mono.m3u8',
-        type: 'hls'
-         },
-    nbatv: {
-        name: 'NBA TV INDIHOME',
-        url: 'https://cdn09jtedge.indihometv.com/joss/133/nba/chunklist_w224616247_b444100_sleng.m3u8',
         type: 'hls'
          },
 	
