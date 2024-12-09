@@ -524,7 +524,12 @@ onenews_hd: {
         key: 'f248c29525ed4c40cc39baeee9634735',
 		type: 'mpd'
     },
-	cartoon_net_hd: {
+DISNEYXD: {
+        name: 'DISNEY XD',
+        url: 'https://fl5.moveonjoy.com/DISNEY_XD/tracks-v1a1/mono.m3u8',
+        type: 'hls'
+         },
+cartoon_net_hd: {
     name: 'CARTOON NETWORK HD',
         url: 'https://qp-pldt-live-grp-12-prod.akamaized.net/out/u/dr_cartoonnetworkhd.mpd',
         keyId: 'a2d1f552ff9541558b3296b5a932136b',
@@ -586,5 +591,15 @@ onenews_hd: {
         keyId: 'fd5d928f5d974ca4983f6e9295dfe410',
         key: '3aaa001ddc142fedbb9d5557be43792f',
 		type: 'mpd'
-         },	 
+         },	
+cathtv: {
+        name: 'CATHOLIC TV',
+        url: 'https://catholictvhd-lh.akamaized.net/hls/live/2043390/CTVLiveHD/master_5.m3u8',
+        type: 'hls'
+         },
+fishtv: {
+         name: 'FISH TV',
+        url: 'https://d35j504z0x2vu2.cloudfront.net/v1/manifest/0bc8e8376bd8417a1b6761138aa41c26c7309312/wired2fish/683467f1-75cf-4283-bb17-a93551008871/0.m3u8',
+        type: 'hls'
+         },
     };
