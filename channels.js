@@ -2,7 +2,12 @@
 const channels = {
 	LOCAL: {
 	name: '🇵🇭LOCAL CHANNELS' 
-	}, 
+	},
+ANIMEtv: {
+        name: 'ANIME TV',
+        url: 'https://stmv1.srvif.com/animetv/animetv/chunklist_w273688155.m3u8',
+        type: 'hls'
+         }, 
    nbatvph: {
     name: 'NBA TV PH',
         url: 'https://qp-pldt-live-grp-02-prod.akamaized.net/out/u/pl_nba.mpd',
