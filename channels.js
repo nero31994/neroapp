@@ -4,10 +4,10 @@ const channels = {
 	name: '🇵🇭LOCAL CHANNELS' 
 	},
 kapamilya: {
-    name: 'KAPAMILYA',
-        url: 'https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-kapcha-dash-abscbnono/index.mpd',
-        keyId: 'bd17afb5dc9648a39be79ee3634dd4b8',
-        key: '3ecf305d54a7729299b93a3d69c02ea5',
+    name: 'TFC',
+        url: 'https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-tfcasia-dash-abscbnono/index.mpd',
+        keyId: '9568cc84e1d944f38eac304517eab6fd',
+        key: 'f12142af8f39b3bab79d3679d3665ebe',
 		type: 'mpd'
 	 },   
 ANIMEtv: {
