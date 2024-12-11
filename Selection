@@ -1,0 +1,5 @@
+<select id="channelSelect" class="w-full p-6 bg-gray-800 text-white rounded">
+                <option value="5">
+ TAP HERE TO SELECT CHANNEL</option>
+                <!-- Channel options will be populated dynamically -->
+            </select>
