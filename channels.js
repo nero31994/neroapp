@@ -609,9 +609,9 @@ fishtv: {
         url: 'https://d35j504z0x2vu2.cloudfront.net/v1/manifest/0bc8e8376bd8417a1b6761138aa41c26c7309312/wired2fish/683467f1-75cf-4283-bb17-a93551008871/0.m3u8',
         type: 'hls'
          },
-TLC: {
-        name: 'TLC',
-        url: 'https://varun-iptv.netlify.app/m3u/TLC.m3u8',
+LN: {
+        name: 'LOVE NATURE',
+        url: 'https://cdn09jtedge.indihometv.com/joss/194/lovenature/index.m3u8',
         type: 'hls'
          }, 
     };
