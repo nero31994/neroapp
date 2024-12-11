@@ -624,4 +624,19 @@ GALXYtv: {
         url: 'https://cdn09jtedge.indihometv.com/joss/133/galaxypremium/index.m3u8',
         type: 'hls'
          }, 
+ESPN: {
+        name: 'ESPN NEWS',
+        url: 'https://fl5.moveonjoy.com/ESPN_2/tracks-v1a1/mono.m3u8',
+        type: 'hls'
+         }, 
+ESPNU: {
+        name: 'ESPN U',
+        url: 'https://fl5.moveonjoy.com/ESPN_U/tracks-v1a1/mono.m3u8',
+        type: 'hls'
+         }, 
+NATGEO: {
+        name: 'NAT GEO',
+        url: 'https://fl5.moveonjoy.com/National_Geographic/tracks-v1a1/mono.m3u8',
+        type: 'hls'
+         }, 
     };
