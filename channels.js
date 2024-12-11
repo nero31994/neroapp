@@ -618,5 +618,10 @@ GALAXYtv: {
         name: 'GALAXY TV TV',
         url: 'https://cdn09jtedge.indihometv.com/joss/133/galaxy/index.m3u8',
         type: 'hls'
+         },
+GALXYtv: {
+        name: 'GALAXY TV PREMIUM',
+        url: 'https://cdn09jtedge.indihometv.com/joss/133/galaxypremium/index.m3u8',
+        type: 'hls'
          }, 
     };
