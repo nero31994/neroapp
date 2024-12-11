@@ -54,7 +54,7 @@
                 autostart: true
             });
         }
-        function populateChannelSelect() {
+        function positionChannelSelect() {
             const select = document.getElementById('channelSelect');
             Object.keys(channels).forEach(key => {
                 const option = document.createElement('option');
@@ -64,7 +64,7 @@
             });
         }
         window.onload = function() {
-            populateChannelSelect();
+            positionChannelSelect();
             
             const channelSelect = document.getElementById('channelSelect');
             channelSelect.addEventListener('change', function() {
