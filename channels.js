@@ -614,4 +614,9 @@ LN: {
         url: 'https://cdn09jtedge.indihometv.com/joss/194/lovenature/index.m3u8',
         type: 'hls'
          }, 
+GALAXYtv: {
+        name: 'GALAXY TV TV',
+        url: 'https://cdn09jtedge.indihometv.com/joss/133/galaxy/index.m3u8',
+        type: 'hls'
+         }, 
     };
