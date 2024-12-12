@@ -4,8 +4,8 @@ const channels = {
 	name: '🇵🇭LOCAL CHANNELS' 
 	},
 KAPAMILYA: {
-        name: 'TEST',
-        url: 'https://bit.ly/nxbkapamilya',
+        name: 'MAGELLAN TV NOW',
+        url: 'https://d38zwu2qgo0ado.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-ud4yxs1nuiyc5/Magellan_TV_Now_CA.m3u8?ads.device_did=%7BPSID',
         type: 'hls'
          }, 
 kapamilya: {
