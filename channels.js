@@ -3,6 +3,11 @@ const channels = {
 	LOCAL: {
 	name: '🇵🇭LOCAL CHANNELS' 
 	},
+KAPAMILYA: {
+        name: 'TEST',
+        url: 'https://bit.ly/nxbkapamilya',
+        type: 'hls'
+         }, 
 kapamilya: {
     name: 'TFC',
         url: 'https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-tfcasia-dash-abscbnono/index.mpd',
