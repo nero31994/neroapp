@@ -3,6 +3,13 @@ const channels = {
 	LOCAL: {
 	name: '🇵🇭LOCAL CHANNELS' 
 	},
+	kapamilya: {
+    name: 'GMA PINOY TV',
+        url: 'https://cdn-uw2-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-abscbn-gma-x7-dash-abscbnono/7c693236-e0c1-40a3-8bd0-bb25e43f5bfc/index.mpd',
+        keyId: 'c95ed4c44b0b4f7fa1c6ebbbbaab21a1',
+        key: '47635b8e885e19f2ccbdff078c207058',
+		type: 'mpd'
+	 },   
 KAPAMILYA: {
         name: 'MAGELLAN TV NOW',
         url: 'https://d38zwu2qgo0ado.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-ud4yxs1nuiyc5/Magellan_TV_Now_CA.m3u8?ads.device_did=%7BPSID',
