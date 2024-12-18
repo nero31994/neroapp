@@ -3,7 +3,7 @@ const channels = {
 	LOCAL: {
 	name: '🇵🇭LOCAL CHANNELS' 
 	},
-	kapamilya: {
+Gmapinoy: {
     name: 'GMA PINOY TV',
         url: 'https://cdn-uw2-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-abscbn-gma-x7-dash-abscbnono/7c693236-e0c1-40a3-8bd0-bb25e43f5bfc/index.mpd',
         keyId: 'c95ed4c44b0b4f7fa1c6ebbbbaab21a1',
