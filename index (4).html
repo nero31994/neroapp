@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+  
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {
+  font-family: "Lato", sans-serif;
+}
+
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+#main {
+  transition: margin-left .5s;
+  padding: 16px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+</style>
+</head>
+<body>
+
+<div id="mySidenav" class="sidenav">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <a href="#"><img src="https://i.ibb.co/74gbLHY/NXB-IPTV-12-9-2024-1.gif" width="200" height="16  </a>
+  <a href="#">
+        
+   </a>
+  <a href="https://anym3u8player.com/tv/p.php?url=https%3A%2F%2Fbit.ly%2Fnxbgma">Not 24/7<img src="https://upload.wikimedia.org/wikipedia/en/thumb/c/c0/GMA_Network_Logo_Vector.svg/1024px-GMA_Network_Logo_Vector.svg.png?20241211035920" width="100" height="4"  </a>
+ </a>
+  <a href="https://anym3u8player.com/tv/p.php?url=https%3A%2F%2Fbit.ly%2Fnxbkapamilya">Not 24/7<img src="https://upload.wikimedia.org/wikipedia/en/f/f2/Kapamilya_Channel_Logo_2020.svg" width="150" height="4"  </a> </a>
+</div>
+
+<div id="main">
+  
+  <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;📚 MENU</span>
+</div>
+
+<script>
+function openNav() {
+  document.getElementById("mySidenav").style.width = "250px";
+  document.getElementById("main").style.marginLeft = "250px";
+}
+
+function closeNav() {
+  document.getElementById("mySidenav").style.width = "0";
+  document.getElementById("main").style.marginLeft= "0";
+}
+</script>
+   
+<!DOCTYPE html>
+
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=0.55 ">
+    <title>NERO TV</title>
+    <script async src="f0a6f.txt" crossorigin="anonymous"></script>
+    <script src="https://cdn.tailwindcss.com/"></script>
+    <script src="jwpsrv.js"></script>
+    <script src="jwplayer.js"></script>
+    <script src="channels.js"></script>
+    
+    <link href="all.min.css" rel="stylesheet">
+   <body class="bg-black text-white min-h-screen flex flex-col">
+   
+</head> 
+  <select id="channelSelect" class="w-1/4 p-2 bg-gray-800 text-white rounded">
+          <option value="1">
+   TAP HERE TO SELECT CHANNEL</option>
+                <!-- Channel options will be populated dynamically -->
+  </select><div class="mb-8 w-full max-w-4xl mx-auto">
+
+    <main class="flex-grow p-4">
+        <div class="w-full max-w-4xl mx-auto bg-black-800 rounded-lg shadow-lg overflow-show mb-4">
+                       <div id="player" <p style="background-image: url('https://media4.giphy.com/media/DuwI3vScFCDfhhayWD/giphy.gif?cid=6c09b952wpmo5lup97w5rx6becs3k8g2iewihulvxvh2tbz0&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=g');" class="w-auto aspect-video rounded"></div>
+        
+        
+    </main>
+
+    <script>
+        jwplayer.key = 'XSuP4qMl+9tK17QNb+4+th2Pm9AWgMO/cYH8CI0HGGr7bdjo';
+        function loadStream(channelKey) {
+            const channel = channels[channelKey];
+            if (!channel) return;
+            jwplayer("player").setup({
+                file: channel.url,
+                type: channel.type,
+                drm: channel.type === 'mpd' ? {
+                    clearkey: {
+                        keyId: channel.keyId,
+                        key: channel.key
+                    }
+                } : undefined,
+                width: "100%",
+                aspectratio: "32:18",
+                autostart: true
+            });
+        }
+        function positionChannelSelect() {
+            const select = document.getElementById('channelSelect');
+            Object.keys(channels).forEach(key => {
+                const option = document.createElement('option');
+                option.value = key;
+                option.textContent = channels[key].name;
+                select.appendChild(option);
+            });
+        }
+        window.onload = function() {
+            positionChannelSelect();
+            
+            const channelSelect = document.getElementById('channelSelect');
+            channelSelect.addEventListener('change', function() {
+                loadStream(this.value);
+            });
+
+            const menuToggle = document.getElementById('menuToggle');
+            const closeMenu = document.getElementById('closeMenu');
+            const slideMenu = document.getElementById('slideMenu');
+
+            menuToggle.addEventListener('click', () => {
+                slideMenu.classList.remove('translate-x-full');
+            });
+
+            closeMenu.addEventListener('click', () => {
+                slideMenu.classList.add('translate-x-full');
+            });
+        };
+    </script>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</body>
+
+
+    </html> 
