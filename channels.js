@@ -3,6 +3,16 @@ const channels = {
 	LOCAL: {
 	name: '🇵🇭LOCAL CHANNELS' 
 	},
+jungo: {
+        name: 'JUNGO PINOY TV',
+        url: 'https://jungotvstream-chanall.akamaized.net/jungotv/jungopinoytv/playlist_1080p.m3u8',
+        type: 'hls'
+         }, 
+HALLYPOP: {
+        name: 'HALLY POP',
+        url: 'https://jungotvstream-chanall.akamaized.net/jungotv/hallypop/playlist_1080p.m3u8',
+        type: 'hls'
+         }, 
 Gmapinoy: {
     name: 'GMA PINOY TV',
         url: 'https://cdn-uw2-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-abscbn-gma-x7-dash-abscbnono/7c693236-e0c1-40a3-8bd0-bb25e43f5bfc/index.mpd',
