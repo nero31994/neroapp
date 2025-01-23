@@ -11,87 +11,105 @@
     <script src="jwpsrv.js"></script>
     <script src="jwplayer.js"></script>
     <script src="channels.js"></script>
-    <script src="remote-control.js"></script> <!-- TV remote compatibility -->
+    <script src="remote-control.js"></script>
 
     <style>
-        /* Ensure the video player and content adjust dynamically */
+        /* Minimalistic Black Design */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #0a0a0a;
+            color: #fff;
+        }
+
+        /* Player Styling */
         #player {
             background-size: cover;
             background-position: center;
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
-            transition: all 0.3s ease-in-out;
+            border-radius: 8px;
+            border: 2px solid #007aff;
+            box-shadow: 0 0 20px rgba(0, 122, 255, 0.4);
         }
 
-        /* Hover effect for the player */
-        #player:hover {
-            box-shadow: 0 0 30px rgba(0, 255, 255, 1);
-        }
-
-        /* Scrollable grid container */
-        .scrollable-grid {
-            max-height: 500px;
+        /* Channel List */
+        .channel-list {
+            max-height: 600px;
             overflow-y: auto;
-            padding-right: 10px;
+            background: #1a1a1a;
+            border-radius: 8px;
+            padding: 15px;
         }
-        .scrollable-grid::-webkit-scrollbar {
+        .channel-list::-webkit-scrollbar {
             width: 8px;
         }
-        .scrollable-grid::-webkit-scrollbar-thumb {
-            background: linear-gradient(45deg, #1e3a8a, #06b6d4);
+        .channel-list::-webkit-scrollbar-thumb {
+            background: #007aff;
             border-radius: 8px;
         }
-        .scrollable-grid::-webkit-scrollbar-track {
-            background: #1f2937;
-        }
 
-        /* Channel list styling */
+        /* Channel Item */
         .channel-item {
-            background: linear-gradient(135deg, #374151, #1e293b);
-            transition: all 0.3s ease-in-out;
+            padding: 15px;
+            border-radius: 5px;
+            background: #111;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
+            font-weight: bold;
         }
-
-        /* Hover and focus effects for channels */
-        .channel-item:hover,
-        .channel-item:focus {
-            background: linear-gradient(135deg, #06b6d4, #1e3a8a);
+        .channel-item:hover, .channel-item:focus {
+            background: #007aff;
+            color: #fff;
             transform: scale(1.05);
-            box-shadow: 0 0 15px rgba(6, 182, 212, 0.8);
         }
 
-        /* Loading indicator animation */
+        /* Loading Animation */
         #loadingIndicator p {
-            animation: blink 1.5s infinite alternate;
+            font-size: 18px;
+            color: #007aff;
+            animation: pulse 1.5s infinite alternate;
         }
-        @keyframes blink {
+
+        @keyframes pulse {
             0% { opacity: 1; }
             100% { opacity: 0.5; }
         }
+
+        /* Error Message */
+        #errorMessage {
+            color: #ff4c4c;
+        }
     </style>
 </head>
-<body class="bg-black text-white min-h-screen flex items-center justify-center p-5">
+<body class="flex items-center justify-center min-h-screen p-5">
 
-    <!-- Main Layout Container -->
-    <div class="flex flex-col md:flex-row w-full max-w-7xl gap-6">
-
-        <!-- Channel List (Left Side) -->
-        <div class="scrollable-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 bg-gray-900 p-4 rounded-lg w-full md:w-1/3">
-            <!-- Channel items will be populated dynamically -->
+    <!-- Layout Container -->
+    <div class="flex flex-col md:flex-row w-full max-w-6xl gap-6">
+        
+        <!-- Channel List (Left) -->
+        <div class="channel-list w-full md:w-1/3 shadow-lg">
+            <h2 class="text-center text-xl font-bold mb-4 text-gray-400">Channels</h2>
+            <div id="channelGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-4">
+                <!-- Channels will be populated dynamically -->
+            </div>
         </div>
 
-        <!-- Video Player (Right Side) -->
+        <!-- Video Player (Right) -->
         <div class="w-full md:w-2/3">
-            <div id="loadingIndicator" class="hidden text-center py-5 text-lg font-semibold text-cyan-400">
+            <h2 class="text-center text-xl font-bold mb-4 text-gray-400">Now Playing</h2>
+            <div id="loadingIndicator" class="hidden text-center py-5">
                 <p>Loading...</p>
             </div>
             <div id="player" 
-                 class="w-full aspect-video bg-gray-800 rounded-lg"
-                 style="background-image: url('https://media1.giphy.com/media/U3qYN8S0j3bpK/giphy.gif?cid=6c09b952inf9tvtvft9lu5mize70evm7opwtqnei94rimsbl&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=g');">
+                 class="w-full aspect-video bg-black rounded-lg"
+                 style="background-image: url('https://media1.giphy.com/media/U3qYN8S0j3bpK/giphy.gif');">
             </div>
         </div>
+
     </div>
 
     <!-- Error Message -->
-    <div id="errorMessage" class="hidden text-center text-red-500 mt-4 text-lg font-semibold"></div>
+    <div id="errorMessage" class="hidden text-center text-lg font-semibold mt-4"></div>
 
     <script>
         // JWPlayer Key
@@ -109,7 +127,6 @@
                 return;
             }
 
-            // Show loading indicator and hide previous errors
             loadingIndicator.classList.remove('hidden');
             errorMessage.classList.add('hidden');
 
@@ -140,32 +157,28 @@
 
         // Populate Channels
         function populateChannels() {
-            const channelList = document.querySelector('.scrollable-grid');
-            channelList.innerHTML = '';  // Clear existing content
+            const channelGrid = document.getElementById('channelGrid');
+            channelGrid.innerHTML = '';
 
             Object.keys(channels).forEach(key => {
                 const channel = channels[key];
-
                 const listItem = document.createElement('div');
-                listItem.className = 'channel-item text-white rounded-lg p-3 text-center cursor-pointer font-medium';
-                listItem.tabIndex = 0;
+                listItem.className = 'channel-item';
                 listItem.textContent = channel.name;
+                listItem.tabIndex = 0;
                 listItem.onclick = () => loadStream(key);
-
-                channelList.appendChild(listItem);
+                channelGrid.appendChild(listItem);
             });
         }
 
-        // Initialize Page
-        window.addEventListener('DOMContentLoaded', () => {
-            populateChannels(); 
-
-            // Load the first available channel by default
+        // Initialize
+        window.onload = function() {
+            populateChannels();
             const defaultChannelKey = Object.keys(channels)[0];
             if (defaultChannelKey) {
                 loadStream(defaultChannelKey);
             }
-        });
+        };
     </script>
 </body>
 </html>
