@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NERO TV</title>
-
-    <!-- External Scripts -->
     <script async src="f0a6f.txt" crossorigin="anonymous"></script>
     <script src="https://cdn.tailwindcss.com/"></script>
     <script src="jwpsrv.js"></script>
@@ -21,6 +19,7 @@
             color: #fff;
             margin: 0;
             padding: 0;
+            overflow: hidden; /* Prevent page scroll */
         }
 
         h2 {
@@ -37,6 +36,8 @@
             border: 3px solid #007aff;
             box-shadow: 0 0 30px rgba(0, 122, 255, 0.4);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            width: 100%;
+            height: 500px; /* Resize player */
         }
 
         #player:hover {
@@ -52,6 +53,8 @@
             border-radius: 10px;
             padding: 20px;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+            overflow-x: hidden; /* Prevent horizontal scroll */
+            height: 600px; /* Lock height */
         }
 
         .channel-list::-webkit-scrollbar {
@@ -68,57 +71,30 @@
             background-color: #1a73e8;
         }
 
-        /* Channel Item Styling (Card Design) */
+        /* Channel Item Styling */
         .channel-item {
             padding: 15px;
-            border-radius: 10px;
+            border-radius: 8px;
             background: #111;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
             font-size: 18px;
             font-weight: bold;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         }
 
         .channel-item:hover, .channel-item:focus {
             background: #007aff;
             color: #fff;
             transform: scale(1.05);
-            box-shadow: 0 0 15px rgba(0, 122, 255, 0.8);
+            box-shadow: 0 0 15px rgba(0, 122, 255, 0.6);
         }
 
         .channel-item:focus {
             outline: none;
             box-shadow: 0 0 15px rgba(0, 122, 255, 1);
-        }
-
-        .channel-item .channel-icon {
-            margin-right: 10px;
-            font-size: 1.2rem;
-        }
-
-        /* Loading Animation */
-        #loadingIndicator p {
-            font-size: 18px;
-            color: #007aff;
-            animation: pulse 1.5s infinite alternate;
-        }
-
-        @keyframes pulse {
-            0% { opacity: 1; }
-            100% { opacity: 0.5; }
-        }
-
-        /* Error Message */
-        #errorMessage {
-            color: #ff4c4c;
-            text-shadow: 2px 2px 5px rgba(255, 0, 0, 0.5);
         }
 
         /* Layout Flexbox Styling */
@@ -129,7 +105,7 @@
             flex-wrap: wrap;
             margin-top: 40px;
             padding: 20px;
-            align-items: center;
+            overflow: hidden; /* Prevent page scroll */
         }
 
         .layout-container > div {
@@ -137,35 +113,39 @@
             min-width: 300px;
         }
 
-        /* Landscape Mode Styles */
-        @media screen and (max-width: 1024px) {
-            .layout-container {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            #player {
-                max-width: 100%;
-                margin-bottom: 20px;
-            }
-
-            .channel-list {
-                width: 100%;
-                max-width: 100%;
-            }
-
-            .channel-item {
-                flex-direction: row;
-                padding: 12px 20px;
-                font-size: 16px;
-                justify-content: flex-start;
-            }
-
-            .channel-item .channel-icon {
-                margin-right: 15px;
-            }
+        /* Control Button Styling */
+        .control-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
         }
 
+        .control-button {
+            background: #007aff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+
+        .control-button:hover {
+            background: #005bb5;
+        }
+
+        /* Volume Control Styling */
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .volume-slider {
+            width: 150px;
+        }
     </style>
 </head>
 <body class="flex justify-center items-center min-h-screen p-5">
@@ -191,6 +171,18 @@
                  class="w-full aspect-video bg-black rounded-lg"
                  style="background-image: url('https://media1.giphy.com/media/U3qYN8S0j3bpK/giphy.gif');">
             </div>
+
+            <!-- Control Buttons -->
+            <div class="control-buttons">
+                <button class="control-button" id="playPauseBtn">Play</button>
+                <button class="control-button" id="fullScreenBtn">Fullscreen</button>
+            </div>
+
+            <!-- Volume Control -->
+            <div class="volume-control">
+                <label for="volumeSlider" class="text-white">Volume:</label>
+                <input type="range" id="volumeSlider" class="volume-slider" min="0" max="100" value="100">
+            </div>
         </div>
 
     </div>
@@ -201,6 +193,9 @@
     <script>
         // JWPlayer Key
         jwplayer.key = 'XSuP4qMl+9tK17QNb+4+th2Pm9AWgMO/cYH8CI0HGGr7bdjo';
+
+        let isPlaying = false;
+        let isFullScreen = false;
 
         // Full-Screen Helper Function
         function toggleFullScreen() {
@@ -214,6 +209,20 @@
             } else if (player.msRequestFullscreen) {
                 player.msRequestFullscreen();
             }
+            isFullScreen = true;
+        }
+
+        // Play/Pause Helper Function
+        function togglePlayPause() {
+            const playPauseBtn = document.getElementById('playPauseBtn');
+            if (isPlaying) {
+                jwplayer("player").pause();
+                playPauseBtn.textContent = "Play";
+            } else {
+                jwplayer("player").play();
+                playPauseBtn.textContent = "Pause";
+            }
+            isPlaying = !isPlaying;
         }
 
         // Load Stream Function
@@ -247,7 +256,8 @@
 
             jwplayer("player").on('ready', () => {
                 loadingIndicator.classList.add('hidden');
-                toggleFullScreen(); // Trigger full screen after the stream is ready
+                isPlaying = true; // Set initial state to playing
+                document.getElementById('playPauseBtn').textContent = "Pause";
             });
 
             jwplayer("player").on('error', () => {
@@ -257,7 +267,13 @@
             });
         }
 
-        // Populate Channels
+        // Volume Control Event
+        document.getElementById('volumeSlider').addEventListener('input', (e) => {
+            const volume = e.target.value / 100;
+            jwplayer("player").setVolume(volume * 100); // Adjust volume in JWPlayer
+        });
+
+        // Initialize Channel List
         function populateChannels() {
             const channelGrid = document.getElementById('channelGrid');
             channelGrid.innerHTML = '';
@@ -266,9 +282,7 @@
                 const channel = channels[key];
                 const listItem = document.createElement('div');
                 listItem.className = 'channel-item';
-                listItem.innerHTML = `
-                    <span class="channel-icon">&#x1F50D;</span> ${channel.name}
-                `;
+                listItem.textContent = channel.name;
                 listItem.tabIndex = 0;
                 listItem.onclick = () => loadStream(key);
                 channelGrid.appendChild(listItem);
