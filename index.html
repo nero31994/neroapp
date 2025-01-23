@@ -31,6 +31,9 @@
              style="background-image: url('https://media1.giphy.com/media/U3qYN8S0j3bpK/giphy.gif?cid=6c09b952inf9tvtvft9lu5mize70evm7opwtqnei94rimsbl&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=g');"></div>
     </div>
 
+    <!-- Channel List -->
+    <div id="channelList" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 my-5 px-4"></div>
+
     <!-- Error Message -->
     <div id="errorMessage" class="hidden text-center text-red-500 mt-4"></div>
 
@@ -85,19 +88,38 @@
             });
         }
 
-        // Populate Channels
+        // Populate Channel Dropdown and List
         function populateChannels(searchQuery = '') {
             const select = document.getElementById('channelSelect');
-            select.innerHTML = '<option value="" disabled selected>Select a Channel</option>'; // Reset options
+            const channelList = document.getElementById('channelList');
+
+            // Reset dropdown and list
+            select.innerHTML = '<option value="" disabled selected>Select a Channel</option>';
+            channelList.innerHTML = '';
 
             Object.keys(channels).forEach(key => {
-                if (searchQuery && !channels[key].name.toLowerCase().includes(searchQuery.toLowerCase())) {
+                const channel = channels[key];
+
+                // Filter channels based on search query
+                if (searchQuery && !channel.name.toLowerCase().includes(searchQuery.toLowerCase())) {
                     return;
                 }
+
+                // Add to dropdown
                 const option = document.createElement('option');
                 option.value = key;
-                option.textContent = channels[key].name;
+                option.textContent = channel.name;
                 select.appendChild(option);
+
+                // Add to list
+                const listItem = document.createElement('div');
+                listItem.className = 'bg-gray-800 text-white rounded p-3 text-center cursor-pointer hover:bg-gray-700';
+                listItem.textContent = channel.name;
+                listItem.onclick = () => {
+                    loadStream(key);
+                    select.value = key; // Update dropdown to match selected channel
+                };
+                channelList.appendChild(listItem);
             });
         }
 
