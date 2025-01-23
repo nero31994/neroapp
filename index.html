@@ -1,37 +1,65 @@
 <!DOCTYPE html>
-
-<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=0.59">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NERO TV</title>
     <script async src="f0a6f.txt" crossorigin="anonymous"></script>
     <script src="https://cdn.tailwindcss.com/"></script>
     <script src="jwpsrv.js"></script>
     <script src="jwplayer.js"></script>
     <script src="channels.js"></script>
+</head>
+<body class="bg-black text-white min-h-screen flex flex-col">
 
-   
-   
-  <select id="channelSelect" class="w-1/4 p-5 bg-black text-white rounded">
-          <option value="4">
-   TAP TO SELECT CHANNEL</option>
-                <!-- Channel options will be populated dynamically --> </select>
+    <!-- Channel Selection -->
+    <div class="flex flex-col items-center my-5">
+        <input id="channelSearch" type="text" placeholder="Search channels..." 
+               class="w-3/4 p-2 mb-3 bg-gray-800 text-white rounded focus:outline-none" />
+        <select id="channelSelect" class="w-3/4 p-3 bg-gray-800 text-white rounded">
+            <option value="" disabled selected>Select a Channel</option>
+        </select>
+    </div>
 
-       
-     <div class="mb-4 w-full max-w-8xl mx-auto">
-    <main class="flex-grow p-0.5">
-        <div class="w-full max-w-4xl mx-auto bg-white rounded-lg shadow-lg overflow-hide mb-4">
-                       <div id="player" <p style="background-image: url('https://media1.giphy.com/media/U3qYN8S0j3bpK/giphy.gif?cid=6c09b952inf9tvtvft9lu5mize70evm7opwtqnei94rimsbl&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=g');" class="w-auto aspect-video rounded"></div>
-        
-        
-    </main>
+    <!-- Video Player -->
+    <div class="w-full max-w-4xl mx-auto">
+        <div id="loadingIndicator" class="hidden text-center py-5">
+            <p>Loading...</p>
+        </div>
+        <div id="player" 
+             class="w-full aspect-video bg-gray-800 rounded"
+             style="background-image: url('https://media1.giphy.com/media/U3qYN8S0j3bpK/giphy.gif?cid=6c09b952inf9tvtvft9lu5mize70evm7opwtqnei94rimsbl&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=g');"></div>
+    </div>
+
+    <!-- Error Message -->
+    <div id="errorMessage" class="hidden text-center text-red-500 mt-4"></div>
+
+    <!-- Chatbox -->
+    <iframe src="https://www3.cbox.ws/box/?boxid=3543387&boxtag=8yLL3O" 
+            width="100%" height="112" allowtransparency="yes" allow="autoplay" 
+            frameborder="0" marginheight="0" marginwidth="0" scrolling="auto"></iframe>
 
     <script>
+        // JWPlayer Key
         jwplayer.key = 'XSuP4qMl+9tK17QNb+4+th2Pm9AWgMO/cYH8CI0HGGr7bdjo';
+
+        // Load Stream Function
         function loadStream(channelKey) {
             const channel = channels[channelKey];
-            if (!channel) return;
+            const playerDiv = document.getElementById('player');
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            const errorMessage = document.getElementById('errorMessage');
+
+            if (!channel) {
+                errorMessage.textContent = 'Error: Channel not found!';
+                errorMessage.classList.remove('hidden');
+                return;
+            }
+
+            // Show loading indicator
+            loadingIndicator.classList.remove('hidden');
+            errorMessage.classList.add('hidden');
+
             jwplayer("player").setup({
                 file: channel.url,
                 type: channel.type,
@@ -45,43 +73,55 @@
                 aspectratio: "32:18",
                 autostart: true
             });
+
+            jwplayer("player").on('ready', () => {
+                loadingIndicator.classList.add('hidden');
+            });
+
+            jwplayer("player").on('error', () => {
+                loadingIndicator.classList.add('hidden');
+                errorMessage.textContent = 'Error: Unable to load the stream.';
+                errorMessage.classList.remove('hidden');
+            });
         }
-        function positionChannelSelect() {
+
+        // Populate Channels
+        function populateChannels(searchQuery = '') {
             const select = document.getElementById('channelSelect');
+            select.innerHTML = '<option value="" disabled selected>Select a Channel</option>'; // Reset options
+
             Object.keys(channels).forEach(key => {
+                if (searchQuery && !channels[key].name.toLowerCase().includes(searchQuery.toLowerCase())) {
+                    return;
+                }
                 const option = document.createElement('option');
                 option.value = key;
                 option.textContent = channels[key].name;
                 select.appendChild(option);
             });
         }
+
+        // Initialize Page
         window.onload = function() {
-            positionChannelSelect();
-            
-            const channelSelect = document.getElementById('channelSelect');
-            channelSelect.addEventListener('change', function() {
+            populateChannels(); // Populate channel options
+
+            // Load the default channel (if any)
+            const defaultChannelKey = Object.keys(channels)[0];
+            if (defaultChannelKey) {
+                loadStream(defaultChannelKey);
+                document.getElementById('channelSelect').value = defaultChannelKey;
+            }
+
+            // Event Listener: Channel Selection
+            document.getElementById('channelSelect').addEventListener('change', function() {
                 loadStream(this.value);
             });
 
-            const menuToggle = document.getElementById('menuToggle');
-            const closeMenu = document.getElementById('closeMenu');
-            const slideMenu = document.getElementById('slideMenu');
-
-            menuToggle.addEventListener('click', () => {
-                slideMenu.classList.remove('translate-x-full');
-            });
-
-            closeMenu.addEventListener('click', () => {
-                slideMenu.classList.add('translate-x-full');
+            // Event Listener: Channel Search
+            document.getElementById('channelSearch').addEventListener('input', function() {
+                populateChannels(this.value);
             });
         };
     </script>
-    <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
 </body>
-<iframe src="https://www3.cbox.ws/box/?boxid=3543387&boxtag=8yLL3O" width="100%" height="112" allowtransparency="yes" allow="autoplay" frameborder="0" marginheight="0" marginwidth="0" scrolling="auto"></iframe>	
-    <link href="all.min.css" rel="stylesheet">
-   <body class="bg-black text-white min-h-screen flex flex-col"> 
-
-    </html> 
+</html>
