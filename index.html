@@ -68,30 +68,39 @@
             background-color: #1a73e8;
         }
 
-        /* Channel Item Styling */
+        /* Channel Item Styling (Card Design) */
         .channel-item {
             padding: 15px;
-            border-radius: 8px;
+            border-radius: 10px;
             background: #111;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
             font-size: 18px;
             font-weight: bold;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         }
 
         .channel-item:hover, .channel-item:focus {
             background: #007aff;
             color: #fff;
             transform: scale(1.05);
-            box-shadow: 0 0 15px rgba(0, 122, 255, 0.6);
+            box-shadow: 0 0 15px rgba(0, 122, 255, 0.8);
         }
 
         .channel-item:focus {
             outline: none;
             box-shadow: 0 0 15px rgba(0, 122, 255, 1);
+        }
+
+        .channel-item .channel-icon {
+            margin-right: 10px;
+            font-size: 1.2rem;
         }
 
         /* Loading Animation */
@@ -120,12 +129,43 @@
             flex-wrap: wrap;
             margin-top: 40px;
             padding: 20px;
+            align-items: center;
         }
 
         .layout-container > div {
             flex: 1;
             min-width: 300px;
         }
+
+        /* Landscape Mode Styles */
+        @media screen and (max-width: 1024px) {
+            .layout-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            #player {
+                max-width: 100%;
+                margin-bottom: 20px;
+            }
+
+            .channel-list {
+                width: 100%;
+                max-width: 100%;
+            }
+
+            .channel-item {
+                flex-direction: row;
+                padding: 12px 20px;
+                font-size: 16px;
+                justify-content: flex-start;
+            }
+
+            .channel-item .channel-icon {
+                margin-right: 15px;
+            }
+        }
+
     </style>
 </head>
 <body class="flex justify-center items-center min-h-screen p-5">
@@ -226,7 +266,9 @@
                 const channel = channels[key];
                 const listItem = document.createElement('div');
                 listItem.className = 'channel-item';
-                listItem.textContent = channel.name;
+                listItem.innerHTML = `
+                    <span class="channel-icon">&#x1F50D;</span> ${channel.name}
+                `;
                 listItem.tabIndex = 0;
                 listItem.onclick = () => loadStream(key);
                 channelGrid.appendChild(listItem);
