@@ -1,8 +1,6 @@
 
 const channels = {
-	LOCAL: {
-	name: '🇵🇭LOCAL CHANNELS' 
-	},
+	
 GTV: {
         name: 'GTV',
         url: 'https://ott.studentsdemo.com/stream/phcathenatv/gtv/master.m3u8?u=phc&p=1ed3395bba4d481a74e631943df9643663da8f300a8edececcb8b7da46349f01',
@@ -35,12 +33,12 @@ Gmapinoy: {
         key: '47635b8e885e19f2ccbdff078c207058',
 		type: 'mpd'
 	 },   
-KAPAMILYA: {
+magillan: {
         name: 'MAGELLAN TV NOW',
         url: 'https://d38zwu2qgo0ado.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-ud4yxs1nuiyc5/Magellan_TV_Now_CA.m3u8?ads.device_did=%7BPSID',
         type: 'hls'
          }, 
-kapamilya: {
+tfc: {
     name: 'TFC',
         url: 'https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-tfcasia-dash-abscbnono/index.mpd',
         keyId: '9568cc84e1d944f38eac304517eab6fd',
