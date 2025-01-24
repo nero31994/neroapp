@@ -2,6 +2,8 @@
 #searchBar {
     font-size: 1rem;
     padding: 10px 15px;
+    padding-left: 2.5rem; /* Space for the icon */
+    width: 100%; /* Full width inside the container */
     color: #cbd5e1;
     background: #1e293b;
     border: 2px solid transparent;
@@ -23,17 +25,20 @@
     opacity: 0.8;
 }
 
-/* Center Search Bar */
-body > div:first-child {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 1rem;
+/* Icon Style */
+.relative svg {
+    color: #6b7280;
+    transition: color 0.3s ease;
 }
 
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-    #searchBar {
-        font-size: 0.9rem;
-    }
+#searchBar:focus + svg {
+    color: #06b6d4;
+}
+
+/* Align Search Bar to Top-Left */
+body > div:first-child {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    padding-left: 1rem;
 }
