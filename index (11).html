@@ -1,173 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NERO TV</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Channel List</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #121212;
+    color: white;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    transition: background-color 0.3s ease; /* Smooth background transition */
+  }
 
-    <!-- External Scripts -->
-    <script async src="f0a6f.txt" crossorigin="anonymous"></script>
-    <script src="https://cdn.tailwindcss.com/"></script>
-    <script src="jwpsrv.js"></script>
-    <script src="jwplayer.js"></script>
-    <script src="channels.js"></script>
-    <script src="remote-control.js"></script> <!-- TV remote compatibility -->
+  /* Page fade-in effect */
+  .fade-in {
+    opacity: 0;
+    animation: fadeIn 1s forwards;
+  }
 
-    <style>
-        /* Ensure the video player and content adjust dynamically */
-        #player {
-            background-size: cover;
-            background-position: top;
-            box-shadow: 0 0 50px rgba(0, 255, 255, 0.6);
-            transition: all 0.3s ease-in-out;
-        }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
 
-        /* Hover effect for the player */
-        #player:hover {
-            box-shadow: 0 0 30px rgba(0, 255, 255, 1);
-        }
+  .container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 10px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    opacity: 0;
+    animation: fadeIn 1s forwards 0.5s; /* Delay animation for smooth entrance */
+  }
 
-        /* Scrollable grid container */
-        .scrollable-grid {
-            max-height: 400px;
-            overflow-y: auto;
-            padding-right: 10px;
-            box-shadow: 0 0 50px rgba(0, 255, 255, 0.6);
-        }
-        .scrollable-grid::-webkit-scrollbar {
-            width: 9px;
-        }
-        .scrollable-grid::-webkit-scrollbar-thumb {
-            background: linear-gradient(45deg, #1e3a8a, #06b6d4);
-            border-radius: 8px;
-        }
-        .scrollable-grid::-webkit-scrollbar-track {
-            background: #1f2937;
-        }
+  .card {
+    background-color: #424242; /* Material Gray 700 */
+    border-radius: 10px;
+    overflow: hidden;
+    text-align: center;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
+  }
 
-        /* Channel list styling */
-        .channel-item {
-            background: linear-gradient(135deg, #374151, #1e293b);
-            transition: all 0.3s ease-in-out;
-        }
+  .card:hover {
+    transform: translateY(-10px); /* Lift the card on hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* More prominent shadow */
+  }
 
-        /* Hover and focus effects for channels */
-        .channel-item:hover,
-        .channel-item:focus {
-            background: linear-gradient(135deg, #06b6d4, #1e3a8a);
-            transform: scale(1.05);
-            box-shadow: 0 0 20px rgba(6, 182, 212, 0.8);
-        }
+  .card:active {
+    transform: translateY(2px); /* Simulate a click effect */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  }
 
-        /* Loading indicator animation */
-        #loadingIndicator p {
-            animation: blink 1.5s infinite alternate;
-        }
-        @keyframes blink {
-            0% { opacity: 1; }
-            100% { opacity: 0.5; }
-        }
-    </style>
+  .card h3 {
+    font-size: 1.2em;
+    margin-bottom: 15px;
+    transition: color 0.3s ease;
+  }
+
+  .card:hover h3 {
+    color: #007BFF; /* Change heading color on card hover */
+  }
+
+  .card button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.1s;
+  }
+
+  .card button:hover {
+    background-color: #0056b3;
+  }
+
+  .card button:active {
+    transform: scale(0.95); /* Button click effect */
+  }
+
+  .card button:focus {
+    outline: 2px solid #007BFF; /* Add focus effect */
+  }
+</style>
+<script src="channels.js"></script>
 </head>
-<body class="bg-black text-white min-h-screen flex items-center justify-center p-5">
+<body class="fade-in">
 
-    <!-- Main Layout Container -->
-    <div class="flex flex-col md:flex-row w-full max-w-7xl gap-6">
+<div class="container" id="channelContainer">
+  <!-- Channel cards will be dynamically added here -->
+</div>
 
-        <!-- Channel List (Left Side) -->
-        <div class="scrollable-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 bg-gray-900 p-4 rounded-lg w-full md:w-1/3">
-            <!-- Channel items will be populated dynamically -->
-        </div>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const channelContainer = document.getElementById("channelContainer");
 
-        <!-- Video Player (Right Side) -->
-        <div class="w-medium md:w-2/3">
-            <div id="loadingIndicator" class="hidden text-center py-5 text-lg font-semibold text-cyan-400">
-                <p>SELECT 📺 CHANNELS </p>
-            </div>
-            <div id="player" 
-                 class="w-full aspect-video bg-gray-800 rounded-lg"
-                 style="background-image: url('https://media1.giphy.com/media/U3qYN8S0j3bpK/giphy.gif?cid=6c09b952inf9tvtvft9lu5mize70evm7opwtqnei94rimsbl&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=g');">
-            </div>
-            
-        </div>
-    </div>
+    // Dynamically create cards from the channels object
+    Object.keys(channels).forEach((key) => {
+      const channel = channels[key];
+      const card = document.createElement("div");
+      card.classList.add("card");
 
-    <!-- Error Message -->
-    <div id="errorMessage" class="hidden text-center text-red-500 mt-4 text-lg font-semibold"></div>
+      card.innerHTML = `
+        <h3>${channel.name}</h3>
+        <button onclick="loadChannel('${key}')">Watch Now</button>
+      `;
 
-    <script>
-        // JWPlayer Key
-        jwplayer.key = 'XSuP4qMl+9tK17QNb+4+th2Pm9AWgMO/cYH8CI0HGGr7bdjo';
+      channelContainer.appendChild(card);
+    });
+  });
 
-        // Load Stream Function
-        function loadStream(channelKey) {
-            const channel = channels[channelKey];
-            const loadingIndicator = document.getElementById('loadingIndicator');
-            const errorMessage = document.getElementById('errorMessage');
+  function loadChannel(channelKey) {
+    const channel = channels[channelKey];
+    if (!channel) return;
 
-            if (!channel) {
-                errorMessage.textContent = 'Error: Channel not found!';
-                errorMessage.classList.remove('hidden');
-                return;
-            }
+    const player = document.createElement("div");
+    player.id = "player";
+    document.body.innerHTML = ""; // Clear the body
+    document.body.appendChild(player);
 
-            // Show loading indicator and hide previous errors
-            loadingIndicator.classList.remove('hidden');
-            errorMessage.classList.add('hidden');
-
-            jwplayer("player").setup({
-                file: channel.url,
-                type: channel.type,
-                drm: channel.type === 'mpd' ? {
-                    clearkey: {
-                        keyId: channel.keyId,
-                        key: channel.key
-                    }
-                } : undefined,
-                width: "100%",
-                aspectratio: "16:9",
-                autostart: true
-            });
-
-            jwplayer("player").on('ready', () => {
-                loadingIndicator.classList.add('hidden');
-            });
-
-            jwplayer("player").on('error', () => {
-                loadingIndicator.classList.add('hidden');
-                errorMessage.textContent = 'Error: Unable to load the stream.';
-                errorMessage.classList.remove('hidden');
-            });
+    jwplayer.key = 'XSuP4qMl+9tK17QNb+4+th2Pm9AWgMO/cYH8CI0HGGr7bdjo';
+    jwplayer("player").setup({
+      file: channel.url,
+      type: channel.type,
+      drm: channel.type === 'mpd' ? {
+        clearkey: {
+          keyId: channel.keyId,
+          key: channel.key
         }
+      } : undefined,
+      width: "100%",
+      aspectratio: "16:9",
+      autostart: true
+    });
+  }
+</script>
 
-        // Populate Channels
-        function populateChannels() {
-            const channelList = document.querySelector('.scrollable-grid');
-            channelList.innerHTML = '';  // Clear existing content
-
-            Object.keys(channels).forEach(key => {
-                const channel = channels[key];
-
-                const listItem = document.createElement('div');
-                listItem.className = 'channel-item text-white rounded-lg p-3 text-center cursor-pointer font-medium';
-                listItem.tabIndex = 0;
-                listItem.textContent = channel.name;
-                listItem.onclick = () => loadStream(key);
-
-                channelList.appendChild(listItem);
-            });
-        }
-
-        // Initialize Page
-        window.addEventListener('DOMContentLoaded', () => {
-            populateChannels(); 
-
-            // Load the first available channel by default
-            const defaultChannelKey = Object.keys(channels)[0];
-            if (defaultChannelKey) {
-                loadStream(defaultChannelKey);
-            }
-        });
-    </script>
 </body>
 </html>
