@@ -2,30 +2,31 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=0.8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NERO TV</title>
-
-    <!-- External Scripts -->
-    <script async src="f0a6f.txt" crossorigin="anonymous"></script>
-    <script src="https://cdn.tailwindcss.com/"></script>
-    <script src="jwpsrv.js"></script>
-    <script src="jwplayer.js"></script>
+    <link rel="stylesheet" href="styles.css">
     <script src="channels.js"></script>
-    <script src="remote-control.js"></script> <!-- TV remote compatibility -->
-    <script src="search.js"></script> <!-- Search functionality -->
-
-    <link rel="stylesheet" href="style.css"> <!-- External CSS -->
+    <script src="remote-control.js"></script>
+    <script src="jwplayer.js"></script>
+    <script src="scripts.js"></script>
 </head>
-<body class="bg-black text-white min-h-screen flex flex-col items-center justify-start p-5">
+<body class="bg-black text-white min-h-screen flex flex-col items-start p-5">
 
     <!-- Search Bar -->
-    <div class="w-full max-w-2xl mt-4">
-        <input 
-            id="searchBar" 
-            type="text" 
-            placeholder="Search channels..." 
-            class="w-full p-3 rounded-lg bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
-        />
+    <div class="w-full flex justify-start mt-4 pl-4">
+        <div class="relative w-1/2">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M11 4a7 7 0 100 14 7 7 0 000-14z" />
+                </svg>
+            </span>
+            <input 
+                id="searchBar" 
+                type="text" 
+                placeholder="Search channels..." 
+                class="p-3 pl-10 w-full rounded-lg bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
+            />
+        </div>
     </div>
 
     <!-- Main Layout Container -->
@@ -50,79 +51,5 @@
     <!-- Error Message -->
     <div id="errorMessage" class="hidden text-center text-red-500 mt-4 text-lg font-semibold"></div>
 
-    <script>
-        // JWPlayer Key
-        jwplayer.key = 'XSuP4qMl+9tK17QNb+4+th2Pm9AWgMO/cYH8CI0HGGr7bdjo';
-
-        // Load Stream Function
-        function loadStream(channelKey) {
-            const channel = channels[channelKey];
-            const loadingIndicator = document.getElementById('loadingIndicator');
-            const errorMessage = document.getElementById('errorMessage');
-
-            if (!channel) {
-                errorMessage.textContent = 'Error: Channel not found!';
-                errorMessage.classList.remove('hidden');
-                return;
-            }
-
-            // Show loading indicator and hide previous errors
-            loadingIndicator.classList.remove('hidden');
-            errorMessage.classList.add('hidden');
-
-            jwplayer("player").setup({
-                file: channel.url,
-                type: channel.type,
-                drm: channel.type === 'mpd' ? {
-                    clearkey: {
-                        keyId: channel.keyId,
-                        key: channel.key
-                    }
-                } : undefined,
-                width: "100%",
-                aspectratio: "16:9",
-                autostart: true
-            });
-
-            jwplayer("player").on('ready', () => {
-                loadingIndicator.classList.add('hidden');
-            });
-
-            jwplayer("player").on('error', () => {
-                loadingIndicator.classList.add('hidden');
-                errorMessage.textContent = 'Error: Unable to load the stream.';
-                errorMessage.classList.remove('hidden');
-            });
-        }
-
-        // Populate Channels
-        function populateChannels() {
-            const channelList = document.querySelector('.scrollable-grid');
-            channelList.innerHTML = '';  // Clear existing content
-
-            Object.keys(channels).forEach(key => {
-                const channel = channels[key];
-
-                const listItem = document.createElement('div');
-                listItem.className = 'channel-item text-white rounded-lg p-3 text-center cursor-pointer font-medium';
-                listItem.tabIndex = 0;
-                listItem.textContent = channel.name;
-                listItem.onclick = () => loadStream(key);
-
-                channelList.appendChild(listItem);
-            });
-        }
-
-        // Initialize Page
-        window.addEventListener('DOMContentLoaded', () => {
-            populateChannels(); 
-
-            // Load the first available channel by default
-            const defaultChannelKey = Object.keys(channels)[0];
-            if (defaultChannelKey) {
-                loadStream(defaultChannelKey);
-            }
-        });
-    </script>
 </body>
 </html>
