@@ -1,0 +1,53 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+.off-canvas-menu {
+  position: fixed;
+  top: 0;
+  left: -250px;
+  width: 250px;
+  height: 100%;
+  background-color: #1c1c1c;
+  color: white;
+  transition: left 0.3s ease;
+  padding: 20px;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.8);
+  z-index: 1000;
+}
+
+.off-canvas-menu ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.off-canvas-menu ul li {
+  margin: 20px 0;
+}
+
+.off-canvas-menu ul li a {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.floating-icon {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  background-color: #1c1c1c;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  cursor: pointer;
+  z-index: 2000;
+}
