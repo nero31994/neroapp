@@ -29,10 +29,10 @@
 
         /* Scrollable grid container */
         .scrollable-grid {
-            max-height: 270px;      
+            max-height: 300px;
             overflow-y: auto;
             padding-right: 20px;
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
+            box-shadow: 0 0 50px rgba(0, 255, 255, 0.6);
         }
         .scrollable-grid::-webkit-scrollbar {
             width: 9px;
@@ -48,7 +48,7 @@
         /* Channel list styling */
         .channel-item {
             background: linear-gradient(135deg, #374151, #1e293b);
-            transition: all 0.5s ease-in-out;
+            transition: all 0.3s ease-in-out;
         }
 
         /* Hover and focus effects for channels */
@@ -75,7 +75,7 @@
     <div class="flex flex-col md:flex-row w-full max-w-7xl gap-6">
 
         <!-- Channel List (Left Side) -->
-        <div class="scrollable-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 bg-black p-4 rounded-lg w-full md:w-1/3">
+        <div class="scrollable-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 bg-gray-900 p-4 rounded-lg w-full md:w-1/3">
             <!-- Channel items will be populated dynamically -->
         </div>
 
@@ -124,7 +124,7 @@
                         key: channel.key
                     }
                 } : undefined,
-                width: "90%",
+                width: "100%",
                 aspectratio: "16:9",
                 autostart: true
             });
