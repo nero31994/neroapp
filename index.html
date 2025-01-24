@@ -13,10 +13,12 @@
     <script src="channels.js"></script>
     <script src="remote-control.js"></script> <!-- TV remote compatibility -->
     <script src="search.js"></script> <!-- Search functionality -->
+    <script src="off-canvas-menu.js"></script> <!-- Off-canvas menu JS -->
 
     <!-- External Stylesheets -->
     <link rel="stylesheet" href="style.css"> <!-- Existing CSS -->
     <link rel="stylesheet" href="auth.css"> <!-- Authentication Form CSS -->
+    <link rel="stylesheet" href="off-canvas-menu.css"> <!-- Off-canvas menu CSS -->
 </head>
 <body class="bg-black text-white min-h-screen flex items-center justify-center p-5">
 
@@ -48,7 +50,7 @@
         <!-- Video Player and Search Bar (Right Side) -->
         <div class="w-full md:w-2/3">
             <div id="loadingIndicator" class="hidden text-center py-5 text-lg font-semibold text-cyan-400">
-                <p>SELECT 📺 CHANNELS </p>
+                <p>SELECT 📺 CHANNELS</p>
             </div>
             <div id="player" 
                  class="w-full aspect-video bg-gray-800 rounded-lg"
@@ -72,79 +74,5 @@
 
     <!-- External Authentication Script -->
     <script src="auth.js"></script>
-    <!-- Rest of the existing script remains inline -->
-    <script>
-        jwplayer.key = 'XSuP4qMl+9tK17QNb+4+th2Pm9AWgMO/cYH8CI0HGGr7bdjo';
-
-        // Load Stream Function
-        function loadStream(channelKey) {
-            const channel = channels[channelKey];
-            const loadingIndicator = document.getElementById('loadingIndicator');
-            const errorMessage = document.getElementById('errorMessage');
-
-            if (!channel) {
-                errorMessage.textContent = 'Error: Channel not found!';
-                errorMessage.classList.remove('hidden');
-                return;
-            }
-
-            // Show loading indicator and hide previous errors
-            loadingIndicator.classList.remove('hidden');
-            errorMessage.classList.add('hidden');
-
-            jwplayer("player").setup({
-                file: channel.url,
-                type: channel.type,
-                drm: channel.type === 'mpd' ? {
-                    clearkey: {
-                        keyId: channel.keyId,
-                        key: channel.key
-                    }
-                } : undefined,
-                width: "100%",
-                aspectratio: "21:9",
-                autostart: true
-            });
-
-            jwplayer("player").on('ready', () => {
-                loadingIndicator.classList.add('hidden');
-            });
-
-            jwplayer("player").on('error', () => {
-                loadingIndicator.classList.add('hidden');
-                errorMessage.textContent = 'Error: Unable to load the stream.';
-                errorMessage.classList.remove('hidden');
-            });
-        }
-
-        // Populate Channels
-        function populateChannels() {
-            const channelList = document.querySelector('.scrollable-grid');
-            channelList.innerHTML = '';  // Clear existing content
-
-            Object.keys(channels).forEach(key => {
-                const channel = channels[key];
-
-                const listItem = document.createElement('div');
-                listItem.className = 'channel-item text-white rounded-lg p-3 text-center cursor-pointer font-medium';
-                listItem.tabIndex = 0;
-                listItem.textContent = channel.name;
-                listItem.onclick = () => loadStream(key);
-
-                channelList.appendChild(listItem);
-            });
-        }
-
-        // Initialize Page
-        window.addEventListener('DOMContentLoaded', () => {
-            populateChannels(); 
-
-            // Load the first available channel by default
-            const defaultChannelKey = Object.keys(channels)[0];
-            if (defaultChannelKey) {
-                loadStream(defaultChannelKey);
-            }
-        });
-    </script>
 </body>
 </html>
