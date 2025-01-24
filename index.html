@@ -14,20 +14,24 @@
     <script src="remote-control.js"></script> <!-- TV remote compatibility -->
 
     <style>
-        /* Ensure the video player and content adjust dynamically */
+        /* General Styling */
+        body.dark {
+            background-color: #000;
+            color: #fff;
+        }
+        body.light {
+            background-color: #f9f9f9;
+            color: #000;
+        }
         #player {
             background-size: cover;
             background-position: top;
             box-shadow: 0 0 50px rgba(0, 255, 255, 0.6);
             transition: all 0.3s ease-in-out;
         }
-
-        /* Hover effect for the player */
         #player:hover {
             box-shadow: 0 0 30px rgba(0, 255, 255, 1);
         }
-
-        /* Scrollable grid container */
         .scrollable-grid {
             max-height: 400px;
             overflow-y: auto;
@@ -44,22 +48,16 @@
         .scrollable-grid::-webkit-scrollbar-track {
             background: #1f2937;
         }
-
-        /* Channel list styling */
         .channel-item {
             background: linear-gradient(135deg, #374151, #1e293b);
             transition: all 0.3s ease-in-out;
         }
-
-        /* Hover and focus effects for channels */
         .channel-item:hover,
         .channel-item:focus {
             background: linear-gradient(135deg, #06b6d4, #1e3a8a);
             transform: scale(1.05);
             box-shadow: 0 0 20px rgba(6, 182, 212, 0.8);
         }
-
-        /* Loading indicator animation */
         #loadingIndicator p {
             animation: blink 1.5s infinite alternate;
         }
@@ -69,37 +67,60 @@
         }
     </style>
 </head>
-<body class="bg-black text-white min-h-screen flex items-center justify-center p-5">
+<body class="dark min-h-screen flex flex-col items-center justify-center p-5">
+
+    <!-- Theme Toggle -->
+    <button id="themeToggle" class="mb-4 p-2 bg-gray-800 text-white rounded-lg">
+        Light Mode
+    </button>
+
+    <!-- Search Bar -->
+    <input 
+        type="text" 
+        id="channelSearch" 
+        class="w-full p-2 mb-4 bg-gray-800 text-white rounded-lg placeholder-gray-400"
+        placeholder="Search for channels..." 
+    />
 
     <!-- Main Layout Container -->
     <div class="flex flex-col md:flex-row w-full max-w-7xl gap-6">
 
         <!-- Channel List (Left Side) -->
         <div class="scrollable-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 bg-gray-900 p-4 rounded-lg w-full md:w-1/3">
-            <!-- Channel items will be populated dynamically -->
+            <!-- Channel items will be dynamically populated -->
         </div>
 
         <!-- Video Player (Right Side) -->
         <div class="w-medium md:w-2/3">
             <div id="loadingIndicator" class="hidden text-center py-5 text-lg font-semibold text-cyan-400">
-                <p>SELECT 📺 CHANNELS </p>
+                <p>SELECT 📺 CHANNELS</p>
             </div>
             <div id="player" 
                  class="w-full aspect-video bg-gray-800 rounded-lg"
                  style="background-image: url('https://media1.giphy.com/media/U3qYN8S0j3bpK/giphy.gif?cid=6c09b952inf9tvtvft9lu5mize70evm7opwtqnei94rimsbl&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=g');">
             </div>
-            
         </div>
     </div>
 
     <!-- Error Message -->
     <div id="errorMessage" class="hidden text-center text-red-500 mt-4 text-lg font-semibold"></div>
 
+    <!-- Scripts -->
     <script>
-        // JWPlayer Key
+        // Mock Channel Data
+        const channels = {
+            cnn: { name: "CNN", url: "https://cnn-stream-url", type: "mp4" },
+            bbc: { name: "BBC", url: "https://bbc-stream-url", type: "mp4" },
+            espn: { name: "ESPN", url: "https://espn-stream-url", type: "mp4" },
+            hbo: { name: "HBO", url: "https://hbo-stream-url", type: "mp4" }
+        };
+
+        // Initialize JWPlayer
         jwplayer.key = 'XSuP4qMl+9tK17QNb+4+th2Pm9AWgMO/cYH8CI0HGGr7bdjo';
 
-        // Load Stream Function
+        let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        let recentlyWatched = JSON.parse(localStorage.getItem('recentlyWatched')) || [];
+
         function loadStream(channelKey) {
             const channel = channels[channelKey];
             const loadingIndicator = document.getElementById('loadingIndicator');
@@ -111,28 +132,23 @@
                 return;
             }
 
-            // Show loading indicator and hide previous errors
+            // Update Recently Watched
+            recentlyWatched = [channelKey, ...recentlyWatched.filter(key => key !== channelKey)];
+            recentlyWatched = recentlyWatched.slice(0, 5);
+            localStorage.setItem('recentlyWatched', JSON.stringify(recentlyWatched));
+
             loadingIndicator.classList.remove('hidden');
             errorMessage.classList.add('hidden');
 
             jwplayer("player").setup({
                 file: channel.url,
                 type: channel.type,
-                drm: channel.type === 'mpd' ? {
-                    clearkey: {
-                        keyId: channel.keyId,
-                        key: channel.key
-                    }
-                } : undefined,
                 width: "100%",
                 aspectratio: "16:9",
                 autostart: true
             });
 
-            jwplayer("player").on('ready', () => {
-                loadingIndicator.classList.add('hidden');
-            });
-
+            jwplayer("player").on('ready', () => loadingIndicator.classList.add('hidden'));
             jwplayer("player").on('error', () => {
                 loadingIndicator.classList.add('hidden');
                 errorMessage.textContent = 'Error: Unable to load the stream.';
@@ -140,33 +156,70 @@
             });
         }
 
-        // Populate Channels
-        function populateChannels() {
+        function toggleFavorite(channelKey) {
+            if (favorites.includes(channelKey)) {
+                favorites = favorites.filter(key => key !== channelKey);
+            } else {
+                favorites.push(channelKey);
+            }
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+            populateChannels();
+        }
+
+        function populateChannels(filter = '') {
             const channelList = document.querySelector('.scrollable-grid');
-            channelList.innerHTML = '';  // Clear existing content
+            channelList.innerHTML = '';
 
-            Object.keys(channels).forEach(key => {
+            // Add Recently Watched
+            if (recentlyWatched.length > 0 && !filter) {
+                channelList.innerHTML += `<h3 class="text-white text-lg font-semibold mb-2">Recently Watched</h3>`;
+                recentlyWatched.forEach(key => {
+                    const channel = channels[key];
+                    channelList.innerHTML += `
+                        <div class="channel-item" onclick="loadStream('${key}')">${channel.name}</div>
+                    `;
+                });
+                channelList.innerHTML += '<hr class="my-4 border-gray-700">';
+            }
+
+            // Filter and Sort
+            const sortedKeys = Object.keys(channels)
+                .filter(key => channels[key].name.toLowerCase().includes(filter.toLowerCase()))
+                .sort((a, b) => channels[a].name.localeCompare(channels[b].name));
+
+            sortedKeys.forEach(key => {
                 const channel = channels[key];
-
-                const listItem = document.createElement('div');
-                listItem.className = 'channel-item text-white rounded-lg p-3 text-center cursor-pointer font-medium';
-                listItem.tabIndex = 0;
-                listItem.textContent = channel.name;
-                listItem.onclick = () => loadStream(key);
-
-                channelList.appendChild(listItem);
+                const isFavorite = favorites.includes(key);
+                channelList.innerHTML += `
+                    <div class="channel-item">
+                        ${channel.name}
+                        <span onclick="toggleFavorite('${key}')">
+                            ${isFavorite ? '★' : '☆'}
+                        </span>
+                    </div>`;
             });
         }
 
-        // Initialize Page
-        window.addEventListener('DOMContentLoaded', () => {
-            populateChannels(); 
+        // Theme Toggle
+        document.getElementById('themeToggle').addEventListener('click', () => {
+            const body = document.body;
+            const currentTheme = body.className;
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            body.className = newTheme;
+            document.getElementById('themeToggle').textContent = newTheme === 'dark' ? 'Light Mode' : 'Dark Mode';
+            localStorage.setItem('theme', newTheme);
+        });
 
-            // Load the first available channel by default
-            const defaultChannelKey = Object.keys(channels)[0];
-            if (defaultChannelKey) {
-                loadStream(defaultChannelKey);
-            }
+        // Search Listener
+        document.getElementById('channelSearch').addEventListener('input', (e) => {
+            populateChannels(e.target.value);
+        });
+
+        // Initialize on Page Load
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.body.className = savedTheme;
+            populateChannels();
         });
     </script>
 </body>
