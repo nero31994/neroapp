@@ -1,0 +1,62 @@
+/* Scroll lock class */
+.scroll-lock {
+    overflow: hidden;
+}
+
+/* Ensure the video player and content adjust dynamically */
+#player {
+    background-size: cover;
+    background-position: top;
+    box-shadow: 0 0 50px rgba(0, 255, 255, 0.6);
+    transition: all 0.3s ease-in-out;
+}
+
+/* Hover effect for the player */
+#player:hover {
+    box-shadow: 0 0 30px rgba(0, 255, 255, 1);
+}
+
+/* Scrollable grid container */
+.scrollable-grid {
+    max-height: 300px;
+    overflow-y: auto;
+    padding-right: 20px;
+    box-shadow: 0 0 50px rgba(0, 255, 255, 0.6);
+}
+
+.scrollable-grid::-webkit-scrollbar {
+    width: 9px;
+}
+
+.scrollable-grid::-webkit-scrollbar-thumb {
+    background: linear-gradient(45deg, #1e3a8a, #06b6d4);
+    border-radius: 8px;
+}
+
+.scrollable-grid::-webkit-scrollbar-track {
+    background: #1f2937;
+}
+
+/* Channel list styling */
+.channel-item {
+    background: linear-gradient(135deg, #374151, #1e293b);
+    transition: all 0.3s ease-in-out;
+}
+
+/* Hover and focus effects for channels */
+.channel-item:hover,
+.channel-item:focus {
+    background: linear-gradient(135deg, #06b6d4, #1e3a8a);
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(6, 182, 212, 0.8);
+}
+
+/* Loading indicator animation */
+#loadingIndicator p {
+    animation: blink 1.5s infinite alternate;
+}
+
+@keyframes blink {
+    0% { opacity: 1; }
+    100% { opacity: 0.5; }
+}
