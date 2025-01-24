@@ -12,9 +12,9 @@
     <script src="jwplayer.js"></script>
     <script src="channels.js"></script>
     <script src="remote-control.js"></script> <!-- TV remote compatibility -->
+    <script src="search.js"></script> <!-- Search functionality -->
 
-    <!-- External CSS -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css"> <!-- External CSS -->
 </head>
 <body class="bg-black text-white min-h-screen flex items-center justify-center p-5">
 
@@ -26,8 +26,8 @@
             <!-- Channel items will be populated dynamically -->
         </div>
 
-        <!-- Video Player (Right Side) -->
-        <div class="w-medium md:w-2/3">
+        <!-- Video Player and Search Bar (Right Side) -->
+        <div class="w-full md:w-2/3">
             <div id="loadingIndicator" class="hidden text-center py-5 text-lg font-semibold text-cyan-400">
                 <p>SELECT 📺 CHANNELS </p>
             </div>
@@ -35,7 +35,16 @@
                  class="w-full aspect-video bg-gray-800 rounded-lg"
                  style="background-image: url('https://media1.giphy.com/media/U3qYN8S0j3bpK/giphy.gif?cid=6c09b952inf9tvtvft9lu5mize70evm7opwtqnei94rimsbl&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=g');">
             </div>
-            
+
+            <!-- Search Bar -->
+            <div class="w-full mt-4">
+                <input 
+                    id="searchBar" 
+                    type="text" 
+                    placeholder="Search channels..." 
+                    class="w-full p-3 rounded-lg bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                />
+            </div>
         </div>
     </div>
 
@@ -71,7 +80,7 @@
                         key: channel.key
                     }
                 } : undefined,
-                width: "100%",
+                width: "90%",
                 aspectratio: "16:9",
                 autostart: true
             });
