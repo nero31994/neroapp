@@ -130,32 +130,15 @@
     <!-- Error Message -->
     <div id="errorMessage" class="hidden text-center text-red-500 mt-4 text-lg font-semibold"></div>
 
+    <!-- Authentication Script -->
+    <script src="auth.js"></script>
+
+    <!-- Rest of the Scripts -->
     <script>
-        // Handle authentication form submission
-        document.getElementById('authForm').addEventListener('submit', function (e) {
-            e.preventDefault();
-
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            const messageElement = document.getElementById('authMessage');
-
-            // Simulate authentication
-            if (username === 'admin' && password === 'password123') {
-                messageElement.style.color = 'green';
-                messageElement.textContent = 'Login successful!';
-                setTimeout(() => {
-                    document.getElementById('authContainer').style.display = 'none';
-                }, 1000);
-            } else {
-                messageElement.style.color = 'red';
-                messageElement.textContent = 'Invalid username or password.';
-            }
-        });
-
         // JWPlayer Key
         jwplayer.key = 'XSuP4qMl+9tK17QNb+4+th2Pm9AWgMO/cYH8CI0HGGr7bdjo';
 
-        // Rest of the original script remains unchanged
+        // Rest of the original script
     </script>
 </body>
 </html>
