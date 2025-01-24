@@ -1,4 +1,3 @@
-// Handle authentication form submission
 document.getElementById('authForm').addEventListener('submit', function (e) {
     e.preventDefault();
 
@@ -6,7 +5,6 @@ document.getElementById('authForm').addEventListener('submit', function (e) {
     const password = document.getElementById('password').value;
     const messageElement = document.getElementById('authMessage');
 
-    // Simulate authentication
     if (username === 'admin' && password === 'password123') {
         messageElement.style.color = 'green';
         messageElement.textContent = 'Login successful!';
