@@ -20,6 +20,41 @@
     <link rel="stylesheet" href="aucss">
     <link rel="stylesheet" href="donation.css"> <!-- Donation CSS -->
 
+    <!-- Security Scripts -->
+    <script>
+        // Disable right-click
+        document.addEventListener("contextmenu", function(e) {
+            e.preventDefault();
+        });
+
+        // Disable common developer tool shortcuts
+        document.addEventListener("keydown", function(e) {
+            // F12 or Ctrl+Shift+I
+            if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && e.keyCode === 73)) {
+                e.preventDefault();
+            }
+            // Ctrl+U
+            if (e.ctrlKey && e.keyCode === 85) {
+                e.preventDefault();
+            }
+        });
+
+        // Detect Developer Tools
+        (function() {
+            const devtoolsDetector = document.createElement('div');
+            devtoolsDetector.__proto__ = null;
+            Object.defineProperty(devtoolsDetector, 'id', {
+                get: function() {
+                    alert('Developer tools are open!');
+                    throw new Error('DevTools detected');
+                }
+            });
+
+            setInterval(function() {
+                console.log(devtoolsDetector);
+            }, 1000);
+        })();
+    </script>
 </head>
 <body class="bg-black text-white min-h-screen flex items-center justify-center p-5">
 
