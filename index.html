@@ -8,8 +8,6 @@
     <!-- External Scripts -->
     <script async src="f0a6f.txt" crossorigin="anonymous"></script>
     <script src="https://cdn.tailwindcss.com/"></script>
-      <!-- Shaka Player -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.12.6/shaka-player.compiled.js" defer></script>
     <script src="channels.js"></script>
     <script src="remote-control.js"></script>
     <script src="search.js"></script>
@@ -55,12 +53,14 @@
             }, 1000);
         })();
     </script>
+
+    <!-- Shaka Player -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.12.6/shaka-player.compiled.js" defer></script>
 </head>
 <body class="bg-black text-white min-h-screen flex items-center justify-center p-5">
 
     <!-- Chat Support -->
     <div class="chat-support">
-        <!-- Floating Chat Button -->
         <a href="https://m.me/102903048546561" target="_blank" class="chat-button">
             <span>💬</span>
         </a>
@@ -68,11 +68,9 @@
 
     <!-- Donation Support -->
     <div class="donation-support">
-        <!-- Floating Donation Button -->
         <div id="donationButton" class="donation-button">
             <span>💳</span>
         </div>
-        <!-- QR Code Modal -->
         <div id="donationModal" class="hidden donation-modal">
             <div class="modal-content">
                 <img src="https://i.ibb.co/ngQyVtz/Photoroom-20250125-110919.png" alt="Donate via QR Code" class="qr-code">
@@ -83,22 +81,20 @@
 
     <!-- Main Layout Container -->
     <div class="flex flex-col md:flex-row w-full max-w-7xl gap-6">
-        <!-- Channel List (Left Side) -->
         <div class="scrollable-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 bg-gray-900 p-4 rounded-lg w-full md:w-1/3">
             <!-- Channel items will be populated dynamically -->
         </div>
-
-        <!-- Video Player and Search Bar (Right Side) -->
         <div class="w-full md:w-2/3">
             <div id="loadingIndicator" class="hidden text-center py-5 text-lg font-semibold text-cyan-400">
                 <p> 📺 SELECT CHANNELS</p>
             </div>
-            <div id="player" 
-                 class="w-full aspect-video bg-gray-800 rounded-lg"
-                 style="background-image: url('https://media1.giphy.com/media/U3qYN8S0j3bpK/giphy.gif?cid=6c09b952inf9tvtvft9lu5mize70evm7opwtqnei94rimsbl&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=g');">
-            </div>
-
-            <!-- Search Bar -->
+            <video 
+                id="player" 
+                class="w-full aspect-video bg-gray-800 rounded-lg" 
+                autoplay 
+                controls 
+                style="background-image: url('https://media1.giphy.com/media/U3qYN8S0j3bpK/giphy.gif?cid=6c09b952inf9tvtvft9lu5mize70evm7opwtqnei94rimsbl&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=g');">
+            </video>
             <div class="w-small mt-3">
                 <input 
                     id="searchBar" 
@@ -109,8 +105,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Error Message -->
     <div id="errorMessage" class="hidden text-center text-red-500 mt-4 text-lg font-semibold"></div>
 
     <!-- External Scripts -->
@@ -118,117 +112,70 @@
     <script src="off-canvas-menu.js"></script>
     <script src="donation.js"></script> <!-- Donation JS -->
 
+    <!-- Shaka Player Configuration -->
     <script>
-    document.addEventListener("DOMContentLoaded", async () => {
-      const videoElement = document.getElementById("video");
-      const channelFrame = document.getElementById("channel-frame");
-      const searchInput = document.getElementById("search");
-      const playPauseBtn = document.getElementById("play-pause-btn");
-      const fullscreenBtn = document.getElementById("fullscreen-btn");
-      const volumeSlider = document.getElementById("volume");
-      const loadingSpinner = document.getElementById("loading-spinner");
-      let currentChannelIndex = 0;
+        async function loadStream(channelKey) {
+            const channel = channels[channelKey];
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            const errorMessage = document.getElementById('errorMessage');
+            const playerElement = document.getElementById('player');
 
-      // Ensure channels are properly defined
-      if (typeof channels === 'undefined' || !Array.isArray(channels)) {
-        console.error("Channels not loaded. Ensure channels.js is included and properly configured.");
-        return;
-      }
+            if (!channel) {
+                errorMessage.textContent = 'Error: Channel not found!';
+                errorMessage.classList.remove('hidden');
+                return;
+            }
 
-      const player = new shaka.Player(videoElement);
+            loadingIndicator.classList.remove('hidden');
+            errorMessage.classList.add('hidden');
 
-      async function loadChannel(channel) {
-        try {
-          loadingSpinner.style.display = 'block'; // Show loading spinner
+            try {
+                const player = new shaka.Player(playerElement);
 
-          // Handle DRM configuration
-          if (channel.drm && channel.drm.kid && channel.drm.key) {
-            player.configure({
-              drm: {
-                clearKeys: { [channel.drm.kid]: channel.drm.key }
-              }
+                if (channel.type === 'mpd') {
+                    player.configure({
+                        drm: {
+                            clearKeys: {
+                                [channel.keyId]: channel.key
+                            }
+                        }
+                    });
+                }
+
+                await player.load(channel.url);
+                loadingIndicator.classList.add('hidden');
+            } catch (error) {
+                loadingIndicator.classList.add('hidden');
+                errorMessage.textContent = 'Error: Unable to load the stream.';
+                errorMessage.classList.remove('hidden');
+                console.error('Error loading stream:', error);
+            }
+        }
+
+        function populateChannels() {
+            const channelList = document.querySelector('.scrollable-grid');
+            channelList.innerHTML = '';
+
+            Object.keys(channels).forEach(key => {
+                const channel = channels[key];
+
+                const listItem = document.createElement('div');
+                listItem.className = 'channel-item text-white rounded-lg p-3 text-center cursor-pointer font-medium';
+                listItem.tabIndex = 0;
+                listItem.textContent = channel.name;
+                listItem.onclick = () => loadStream(key);
+
+                channelList.appendChild(listItem);
             });
-          }
-
-          await player.load(channel.url); // Load the stream URL
-          loadingSpinner.style.display = 'none'; // Hide loading spinner
-          console.log(`Playing: ${channel.name}`);
-          enterFullScreen(videoElement);
-        } catch (error) {
-          console.error("Error loading channel:", error);
-          alert(`Failed to load channel: ${channel.name}`);
-          loadingSpinner.style.display = 'none'; // Hide loading spinner
         }
-      }
 
-      function enterFullScreen(element) {
-        if (element.requestFullscreen) {
-          element.requestFullscreen();
-        } else if (element.mozRequestFullScreen) {
-          element.mozRequestFullScreen();
-        } else if (element.webkitRequestFullscreen) {
-          element.webkitRequestFullscreen();
-        } else if (element.msRequestFullscreen) {
-          element.msRequestFullscreen();
-        }
-      }
-
-      function displayChannels(filteredChannels) {
-        channelFrame.innerHTML = ""; // Clear existing channels
-        filteredChannels.forEach((channel, index) => {
-          const button = document.createElement("button");
-          button.textContent = channel.name;
-          button.dataset.index = index;
-          button.onclick = () => {
-            currentChannelIndex = index;
-            loadChannel(channel);
-            updateActiveChannel();
-          };
-          channelFrame.appendChild(button); // Append the button to the channel list
+        window.addEventListener('DOMContentLoaded', () => {
+            populateChannels();
+            const defaultChannelKey = Object.keys(channels)[0];
+            if (defaultChannelKey) {
+                loadStream(defaultChannelKey);
+            }
         });
-        updateActiveChannel();
-      }
-
-      function updateActiveChannel() {
-        const buttons = document.querySelectorAll('.channel-frame button');
-        buttons.forEach((btn, idx) => {
-          btn.classList.toggle('active', idx === currentChannelIndex);
-        });
-      }
-
-      // Initial loading of channels
-      displayChannels(channels);
-
-      // Search functionality
-      searchInput.addEventListener("input", () => {
-        const searchTerm = searchInput.value.toLowerCase();
-        const filteredChannels = channels.filter(channel =>
-          channel.name.toLowerCase().includes(searchTerm)
-        );
-        displayChannels(filteredChannels);
-      });
-
-      // Play/Pause button
-      playPauseBtn.addEventListener("click", () => {
-        if (videoElement.paused) {
-          videoElement.play();
-          playPauseBtn.textContent = "Pause";
-        } else {
-          videoElement.pause();
-          playPauseBtn.textContent = "Play";
-        }
-      });
-
-      // Fullscreen button
-      fullscreenBtn.addEventListener("click", () => {
-        enterFullScreen(videoElement);
-      });
-
-      // Volume control
-      volumeSlider.addEventListener("input", () => {
-        videoElement.volume = volumeSlider.value;
-      });
-    });
-  </script>
+    </script>
 </body>
 </html>
