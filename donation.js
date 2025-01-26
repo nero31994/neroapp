@@ -5,18 +5,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Show the modal when the donation button is clicked
     donationButton.addEventListener('click', () => {
-        donationModal.classList.add('show');  // Add 'show' class for fade-in effect
+        donationModal.classList.remove('hidden');
     });
 
     // Hide the modal when the close button is clicked
     closeModal.addEventListener('click', () => {
-        donationModal.classList.remove('show');  // Remove 'show' class to fade out
+        donationModal.classList.add('hidden');
     });
 
     // Hide the modal when clicking outside the modal content
     donationModal.addEventListener('click', (e) => {
         if (e.target === donationModal) {
-            donationModal.classList.remove('show');  // Remove 'show' class to fade out
+            donationModal.classList.add('hidden');
         }
     });
 });
