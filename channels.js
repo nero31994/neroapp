@@ -18,9 +18,9 @@ KAP: {
          }, 
 KAPAMILYA_CHANNEL: {
     name: 'KAPAMILYA CHANNEL',
-    url: 'https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-kapcha-dash-abscbnono/index.mpd',
-    type: 'dash',
-    key: 'bd17afb5dc9648a39be79ee3634dd4b8:3ecf305d54a7729299b93a3d69c02ea5'
+    url: 'http://115.146.176.131/live/TimRizal/TimRizal/89.ts',
+    type: 'hls',
+    
 },
 TELERADYO: {
     name: 'TELERADYO',
