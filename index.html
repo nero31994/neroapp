@@ -8,8 +8,8 @@
     <!-- External Scripts -->
     <script async src="f0a6f.txt" crossorigin="anonymous"></script>
     <script src="https://cdn.tailwindcss.com/"></script>
-    <script src="jwpsrv.js"></script>
-    <script src="jwplayer.js"></script>
+      <!-- Shaka Player -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.12.6/shaka-player.compiled.js" defer></script>
     <script src="channels.js"></script>
     <script src="remote-control.js"></script>
     <script src="search.js"></script>
@@ -118,87 +118,117 @@
     <script src="off-canvas-menu.js"></script>
     <script src="donation.js"></script> <!-- Donation JS -->
 
-    <!-- JWPlayer Configuration -->
     <script>
-    jwplayer.key = 'XSuP4qMl+9tK17QNb+4+th2Pm9AWgMO/cYH8CI0HGGr7bdjo';
+    document.addEventListener("DOMContentLoaded", async () => {
+      const videoElement = document.getElementById("video");
+      const channelFrame = document.getElementById("channel-frame");
+      const searchInput = document.getElementById("search");
+      const playPauseBtn = document.getElementById("play-pause-btn");
+      const fullscreenBtn = document.getElementById("fullscreen-btn");
+      const volumeSlider = document.getElementById("volume");
+      const loadingSpinner = document.getElementById("loading-spinner");
+      let currentChannelIndex = 0;
 
-    function loadStream(channelKey) {
-        const channel = channels[channelKey];
-        const loadingIndicator = document.getElementById('loadingIndicator');
-        const errorMessage = document.getElementById('errorMessage');
-        const playerElement = document.getElementById('player');
+      // Ensure channels are properly defined
+      if (typeof channels === 'undefined' || !Array.isArray(channels)) {
+        console.error("Channels not loaded. Ensure channels.js is included and properly configured.");
+        return;
+      }
 
-        if (!channel) {
-            errorMessage.textContent = 'Error: Channel not found!';
-            errorMessage.classList.remove('hidden');
-            return;
+      const player = new shaka.Player(videoElement);
+
+      async function loadChannel(channel) {
+        try {
+          loadingSpinner.style.display = 'block'; // Show loading spinner
+
+          // Handle DRM configuration
+          if (channel.drm && channel.drm.kid && channel.drm.key) {
+            player.configure({
+              drm: {
+                clearKeys: { [channel.drm.kid]: channel.drm.key }
+              }
+            });
+          }
+
+          await player.load(channel.url); // Load the stream URL
+          loadingSpinner.style.display = 'none'; // Hide loading spinner
+          console.log(`Playing: ${channel.name}`);
+          enterFullScreen(videoElement);
+        } catch (error) {
+          console.error("Error loading channel:", error);
+          alert(`Failed to load channel: ${channel.name}`);
+          loadingSpinner.style.display = 'none'; // Hide loading spinner
         }
+      }
 
-        loadingIndicator.classList.remove('hidden');
-        errorMessage.classList.add('hidden');
-
-        jwplayer("player").setup({
-            file: channel.url,
-            type: channel.type,
-            drm: channel.type === 'mpd' ? {
-                clearkey: {
-                    keyId: channel.keyId,
-                    key: channel.key
-                }
-            } : undefined,
-            width: "100%",
-            aspectratio: "21:9", // Set to 21:9 aspect ratio
-            autostart: true
-        });
-
-        // Enter fullscreen immediately when playback starts
-        jwplayer("player").on('play', () => {
-            if (playerElement.requestFullscreen) {
-                playerElement.requestFullscreen().catch((err) => {
-                    console.warn('Fullscreen request failed:', err);
-                });
-            } else if (playerElement.webkitRequestFullscreen) { // Safari support
-                playerElement.webkitRequestFullscreen();
-            } else if (playerElement.msRequestFullscreen) { // IE/Edge support
-                playerElement.msRequestFullscreen();
-            }
-        });
-
-        jwplayer("player").on('ready', () => {
-            loadingIndicator.classList.add('hidden');
-        });
-
-        jwplayer("player").on('error', () => {
-            loadingIndicator.classList.add('hidden');
-            errorMessage.textContent = 'Error: Unable to load the stream.';
-            errorMessage.classList.remove('hidden');
-        });
-    }
-
-    function populateChannels() {
-        const channelList = document.querySelector('.scrollable-grid');
-        channelList.innerHTML = '';  
-
-        Object.keys(channels).forEach(key => {
-            const channel = channels[key];
-
-            const listItem = document.createElement('div');
-            listItem.className = 'channel-item text-white rounded-lg p-3 text-center cursor-pointer font-medium';
-            listItem.tabIndex = 0;
-            listItem.textContent = channel.name;
-            listItem.onclick = () => loadStream(key);
-
-            channelList.appendChild(listItem);
-        });
-    }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        populateChannels(); 
-        const defaultChannelKey = Object.keys(channels)[0];
-        if (defaultChannelKey) {
-            loadStream(defaultChannelKey);
+      function enterFullScreen(element) {
+        if (element.requestFullscreen) {
+          element.requestFullscreen();
+        } else if (element.mozRequestFullScreen) {
+          element.mozRequestFullScreen();
+        } else if (element.webkitRequestFullscreen) {
+          element.webkitRequestFullscreen();
+        } else if (element.msRequestFullscreen) {
+          element.msRequestFullscreen();
         }
+      }
+
+      function displayChannels(filteredChannels) {
+        channelFrame.innerHTML = ""; // Clear existing channels
+        filteredChannels.forEach((channel, index) => {
+          const button = document.createElement("button");
+          button.textContent = channel.name;
+          button.dataset.index = index;
+          button.onclick = () => {
+            currentChannelIndex = index;
+            loadChannel(channel);
+            updateActiveChannel();
+          };
+          channelFrame.appendChild(button); // Append the button to the channel list
+        });
+        updateActiveChannel();
+      }
+
+      function updateActiveChannel() {
+        const buttons = document.querySelectorAll('.channel-frame button');
+        buttons.forEach((btn, idx) => {
+          btn.classList.toggle('active', idx === currentChannelIndex);
+        });
+      }
+
+      // Initial loading of channels
+      displayChannels(channels);
+
+      // Search functionality
+      searchInput.addEventListener("input", () => {
+        const searchTerm = searchInput.value.toLowerCase();
+        const filteredChannels = channels.filter(channel =>
+          channel.name.toLowerCase().includes(searchTerm)
+        );
+        displayChannels(filteredChannels);
+      });
+
+      // Play/Pause button
+      playPauseBtn.addEventListener("click", () => {
+        if (videoElement.paused) {
+          videoElement.play();
+          playPauseBtn.textContent = "Pause";
+        } else {
+          videoElement.pause();
+          playPauseBtn.textContent = "Play";
+        }
+      });
+
+      // Fullscreen button
+      fullscreenBtn.addEventListener("click", () => {
+        enterFullScreen(videoElement);
+      });
+
+      // Volume control
+      volumeSlider.addEventListener("input", () => {
+        videoElement.volume = volumeSlider.value;
+      });
     });
-    </script>
+  </script>
 </body>
 </html>
