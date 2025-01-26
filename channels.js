@@ -16,6 +16,18 @@ KAP: {
         url: 'https://ott.studentsdemo.com/stream/phcathenatv/kapamilyachannel/master.m3u8?u=phc&p=1ed3395bba4d481a74e631943df9643663da8f300a8edececcb8b7da46349f01',
         type: 'hls'
          }, 
+KAPAMILYA_CHANNEL: {
+    name: 'KAPAMILYA CHANNEL',
+    url: 'https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-kapcha-dash-abscbnono/index.mpd',
+    type: 'dash',
+    key: 'bd17afb5dc9648a39be79ee3634dd4b8:3ecf305d54a7729299b93a3d69c02ea5'
+},
+TELERADYO: {
+    name: 'TELERADYO',
+    url: 'https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-teleradyo-dash-abscbnono/index.mpd',
+    type: 'dash',
+    key: '47c093e0c9fd4f80839a0337da3dd876:50547394045b3d047dc7d92f57b5fb33'
+},
 jungo: {
         name: 'JUNGO PINOY TV',
         url: 'https://jungotvstream-chanall.akamaized.net/jungotv/jungopinoytv/playlist_1080p.m3u8',
