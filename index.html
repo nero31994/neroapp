@@ -57,18 +57,21 @@
       let currentChannelIndex = 0;
 
       // Ensure channels are properly defined
-      if (typeof channels === 'undefined' || typeof channels !== 'object') {
+      if (typeof channels === 'undefined' || !Object.keys(channels).length) {
         console.error("Channels not loaded. Ensure channels.js is included and properly configured.");
         return;
       }
 
       const player = new shaka.Player(videoElement);
 
+      // Using CORS Anywhere as a proxy to bypass CORS issues
+      const corsProxy = 'https://cors-anywhere.herokuapp.com/';
+
       async function loadChannel(channel) {
         try {
           loadingSpinner.style.display = 'block'; // Show loading spinner
 
-          // Handle DRM configuration
+          // Handle DRM configuration if applicable
           if (channel.drm && channel.drm.kid && channel.drm.key) {
             player.configure({
               drm: {
@@ -77,7 +80,10 @@
             });
           }
 
-          await player.load(channel.url); // Load the stream URL
+          // If the stream is HLS, add the proxy URL
+          const streamUrl = channel.type === 'hls' ? corsProxy + channel.url : channel.url;
+
+          await player.load(streamUrl); // Load the stream URL with the proxy
           loadingSpinner.style.display = 'none'; // Hide loading spinner
           console.log(`Playing: ${channel.name}`);
           enterFullScreen(videoElement);
@@ -123,7 +129,7 @@
         });
       }
 
-      // Convert the channels object to an array and initial loading of channels
+      // Initial loading of channels
       displayChannels(Object.values(channels));
 
       // Search functionality
