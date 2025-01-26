@@ -1,7 +1,9 @@
-// Search functionality for the channel list
 document.addEventListener('DOMContentLoaded', () => {
     const searchBar = document.getElementById('searchBar');
     const channelList = document.querySelector('.scrollable-grid');
+
+    // Adjust the height of the search bar to 30% of its current height
+    searchBar.style.height = `${searchBar.offsetHeight * 0.3}px`;
 
     // Filter channels dynamically based on input
     searchBar.addEventListener('input', () => {
@@ -17,4 +19,4 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
-}); 
+});
