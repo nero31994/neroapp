@@ -22,12 +22,6 @@ KAPAMILYA_CHANNEL: {
     type: 'hls',
     
 },
-TELERADYO: {
-    name: 'TELERADYO',
-    url: 'https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-teleradyo-dash-abscbnono/index.mpd',
-    type: 'dash',
-    key: '47c093e0c9fd4f80839a0337da3dd876:50547394045b3d047dc7d92f57b5fb33'
-},
 jungo: {
         name: 'JUNGO PINOY TV',
         url: 'https://jungotvstream-chanall.akamaized.net/jungotv/jungopinoytv/playlist_1080p.m3u8',
