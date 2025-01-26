@@ -752,7 +752,7 @@ NBA_9: {
 },
 NBA_TV: {
     name: 'NBA_TV',
-    url: 'http://fl2.moveonjoy.com/NBA_TV/index.m3u8',
+    url: 'https://fl2.moveonjoy.com/NBA_TV/index.m3u8',
     type: 'hls'
 },
 NBC_EAST: {
