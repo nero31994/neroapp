@@ -752,7 +752,7 @@ NBA_9: {
 },
 NBA_TV: {
     name: 'NBA_TV',
-    url: 'https://cors.pubba.uk/m3u8-proxy?url=https://fl2.moveonjoy.com/NBA_TV/index.m3u8',
+    url: 'https://cors.pubba.uk/m3u8-proxy?url=http://fl2.moveonjoy.com/NBA_TV/index.m3u8',
     type: 'hls'
 },
 NBC_EAST: {
