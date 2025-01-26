@@ -680,4 +680,134 @@ NATGEO: {
         url: 'https://fl5.moveonjoy.com/National_Geographic/tracks-v1a1/mono.m3u8',
         type: 'hls'
          }, 
-    };
+GOLF_CHANNEL: {
+    name: 'GOLF_CHANNEL',
+    url: 'http://fl2.moveonjoy.com/GOLF_CHANNEL/index.m3u8',
+    type: 'hls'
+},
+NBA_1: {
+    name: 'NBA_1',
+    url: 'http://fl5.moveonjoy.com/NBA_1/index.m3u8',
+    type: 'hls'
+},
+NBA_10: {
+    name: 'NBA_10',
+    url: 'http://fl5.moveonjoy.com/NBA_10/index.m3u8',
+    type: 'hls'
+},
+NBA_11: {
+    name: 'NBA_11',
+    url: 'http://fl5.moveonjoy.com/NBA_11/index.m3u8',
+    type: 'hls'
+},
+NBA_12: {
+    name: 'NBA_12',
+    url: 'http://fl5.moveonjoy.com/NBA_12/index.m3u8',
+    type: 'hls'
+},
+NBA_13: {
+    name: 'NBA_13',
+    url: 'http://fl5.moveonjoy.com/NBA_13/index.m3u8',
+    type: 'hls'
+},
+NBA_2: {
+    name: 'NBA_2',
+    url: 'http://fl5.moveonjoy.com/NBA_2/index.m3u8',
+    type: 'hls'
+},
+NBA_3: {
+    name: 'NBA_3',
+    url: 'http://fl5.moveonjoy.com/NBA_3/index.m3u8',
+    type: 'hls'
+},
+NBA_4: {
+    name: 'NBA_4',
+    url: 'http://fl5.moveonjoy.com/NBA_4/index.m3u8',
+    type: 'hls'
+},
+NBA_5: {
+    name: 'NBA_5',
+    url: 'http://fl5.moveonjoy.com/NBA_5/index.m3u8',
+    type: 'hls'
+},
+NBA_6: {
+    name: 'NBA_6',
+    url: 'http://fl5.moveonjoy.com/NBA_6/index.m3u8',
+    type: 'hls'
+},
+NBA_7: {
+    name: 'NBA_7',
+    url: 'http://fl5.moveonjoy.com/NBA_7/index.m3u8',
+    type: 'hls'
+},
+NBA_8: {
+    name: 'NBA_8',
+    url: 'http://fl5.moveonjoy.com/NBA_8/index.m3u8',
+    type: 'hls'
+},
+NBA_9: {
+    name: 'NBA_9',
+    url: 'http://fl5.moveonjoy.com/NBA_9/index.m3u8',
+    type: 'hls'
+},
+NBA_TV: {
+    name: 'NBA_TV',
+    url: 'http://fl2.moveonjoy.com/NBA_TV/index.m3u8',
+    type: 'hls'
+},
+NBC_EAST: {
+    name: 'NBC_EAST',
+    url: 'http://fl1.moveonjoy.com/NBC_EAST/index.m3u8',
+    type: 'hls'
+},
+NEWS_NATION: {
+    name: 'NEWS_NATION',
+    url: 'http://fl2.moveonjoy.com/NEWS_NATION/index.m3u8',
+    type: 'hls'
+},
+NFL_1: {
+    name: 'NFL_1',
+    url: 'http://fl2.moveonjoy.com/NFL_1/index.m3u8',
+    type: 'hls'
+},
+NFL_10: {
+    name: 'NFL_10',
+    url: 'http://fl2.moveonjoy.com/NFL_10/index.m3u8',
+    type: 'hls'
+},
+NFL_11: {
+    name: 'NFL_11',
+    url: 'http://fl2.moveonjoy.com/NFL_11/index.m3u8',
+    type: 'hls'
+},
+NFL_12: {
+    name: 'NFL_12',
+    url: 'http://fl2.moveonjoy.com/NFL_12/index.m3u8',
+    type: 'hls'
+},
+NFL_13: {
+    name: 'NFL_13',
+    url: 'http://fl2.moveonjoy.com/NFL_13/index.m3u8',
+    type: 'hls'
+},
+NFL_14: {
+    name: 'NFL_14',
+    url: 'http://fl2.moveonjoy.com/NFL_14/index.m3u8',
+    type: 'hls'
+},
+NFL_15: {
+    name: 'NFL_15',
+    url: 'http://fl2.moveonjoy.com/NFL_15/index.m3u8',
+    type: 'hls'
+},
+NFL_2: {
+    name: 'NFL_2',
+    url: 'http://fl2.moveonjoy.com/NFL_2/index.m3u8',
+    type: 'hls'
+},
+NFL_3: {
+    name: 'NFL_3',
+    url: 'http://fl2.moveonjoy.com/NFL_3/index.m3u8',
+    type: 'hls'
+}
+};
