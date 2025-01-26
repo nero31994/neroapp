@@ -18,7 +18,7 @@ KAP: {
          }, 
 KAPAMILYA_CHANNEL: {
     name: 'KAPAMILYA CHANNEL',
-    url: 'http://115.146.176.131/live/TimRizal/TimRizal/89.ts',
+    url: 'http://115.146.176.131/live/TimRizal/TimRizal/89.m3u8',
     type: 'hls',
     
 },
