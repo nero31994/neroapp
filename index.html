@@ -1,138 +1,161 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>NERO TV</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Minimal IPTV Player</title>
 
-    <!-- External Scripts -->
-    <script src="https://cdn.tailwindcss.com/"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.12.6/shaka-player.compiled.js" defer></script>
-    <script src="channels.js"></script>
-    <script src="remote-control.js"></script>
-    <script src="search.js"></script>
+  <!-- Shaka Player -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.12.6/shaka-player.compiled.js" defer></script>
 
-    <!-- External Stylesheets -->
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="aucss">
-    <link rel="stylesheet" href="donation.css">
-
-    <!-- Security Scripts -->
-    <script>
-        // Disable right-click and developer tools
-        document.addEventListener("contextmenu", (e) => e.preventDefault());
-        document.addEventListener("keydown", (e) => {
-            if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && e.keyCode === 73) || (e.ctrlKey && e.keyCode === 85)) {
-                e.preventDefault();
-            }
-        });
-    </script>
+  <!-- Link to the external CSS -->
+  <link rel="stylesheet" href="styles.css">
 </head>
-<body class="bg-black text-white min-h-screen flex items-center justify-center p-5">
+<body>
 
-    <!-- Chat Support -->
-    <div class="chat-support">
-        <a href="https://m.me/102903048546561" target="_blank" class="chat-button"><span>💬</span></a>
+  <!-- Loading Spinner -->
+  <div id="loading-spinner" class="loading-spinner" style="display: none;"></div>
+
+  <!-- Frame -->
+  <div class="frame">
+    <div class="search-container">
+      <input type="text" id="search" placeholder="Search channels..." aria-label="Search channels">
     </div>
-
-    <!-- Donation Support -->
-    <div class="donation-support">
-        <div id="donationButton" class="donation-button"><span>💳</span></div>
-        <div id="donationModal" class="hidden donation-modal">
-            <div class="modal-content">
-                <img src="https://i.ibb.co/ngQyVtz/Photoroom-20250125-110919.png" alt="Donate via QR Code" class="qr-code">
-                <button id="closeModal" class="close-button">✖</button>
-            </div>
-        </div>
+    <div id="channel-frame" class="channel-frame">
+      <!-- Channels will be loaded dynamically from channels.js -->
     </div>
+  </div>
 
-    <!-- Main Layout Container -->
-    <div class="flex flex-col md:flex-row w-full max-w-7xl gap-6">
-        <!-- Channel List (Left Side) -->
-        <div class="scrollable-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 bg-gray-900 p-4 rounded-lg w-full md:w-1/3"></div>
-
-        <!-- Video Player and Search Bar (Right Side) -->
-        <div class="w-full md:w-2/3">
-            <div id="loadingIndicator" class="hidden text-center py-5 text-lg font-semibold text-cyan-400">
-                <p> 📺 SELECT CHANNELS</p>
-            </div>
-            <video id="player" class="w-full aspect-video bg-gray-800 rounded-lg" controls autoplay></video>
-            <div class="w-small mt-3">
-                <input id="searchBar" type="text" placeholder="Search channels..." class="w-full p-3 rounded-lg bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500" />
-            </div>
-        </div>
+  <!-- Main Content -->
+  <main class="content">
+    <video id="video" controls autoplay>
+      Your browser does not support the video tag.
+    </video>
+    <div class="controls">
+      <button id="play-pause-btn">Pause</button>
+      <button id="fullscreen-btn">Full Screen</button>
+      <div>
+        <label for="volume">Volume:</label>
+        <input type="range" id="volume" class="volume-slider" min="0" max="1" step="0.1" value="1">
+      </div>
     </div>
+  </main>
 
-    <!-- Error Message -->
-    <div id="errorMessage" class="hidden text-center text-red-500 mt-4 text-lg font-semibold"></div>
+  <script src="channels.js"></script> <!-- Ensure channels.js is correctly linked -->
+  <script src="remote-control.js"></script>
 
-    <!-- Scripts -->
-    <script>
-        async function loadStream(channelKey) {
-            const channel = channels[channelKey];
-            const loadingIndicator = document.getElementById('loadingIndicator');
-            const errorMessage = document.getElementById('errorMessage');
-            const playerElement = document.getElementById('player');
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      const videoElement = document.getElementById("video");
+      const channelFrame = document.getElementById("channel-frame");
+      const searchInput = document.getElementById("search");
+      const playPauseBtn = document.getElementById("play-pause-btn");
+      const fullscreenBtn = document.getElementById("fullscreen-btn");
+      const volumeSlider = document.getElementById("volume");
+      const loadingSpinner = document.getElementById("loading-spinner");
+      let currentChannelIndex = 0;
 
-            if (!channel) {
-                errorMessage.textContent = 'Error: Channel not found!';
-                errorMessage.classList.remove('hidden');
-                return;
-            }
+      // Ensure channels are properly defined
+      if (typeof channels === 'undefined' || typeof channels !== 'object') {
+        console.error("Channels not loaded. Ensure channels.js is included and properly configured.");
+        return;
+      }
 
-            loadingIndicator.classList.remove('hidden');
-            errorMessage.classList.add('hidden');
+      const player = new shaka.Player(videoElement);
 
-            try {
-                const player = new shaka.Player(playerElement);
+      async function loadChannel(channel) {
+        try {
+          loadingSpinner.style.display = 'block'; // Show loading spinner
 
-                // Configure DRM for MPD streams
-                if (channel.type === 'mpd' && channel.keyId && channel.key) {
-                    player.configure({
-                        drm: {
-                            clearKeys: {
-                                [channel.keyId]: channel.key
-                            }
-                        }
-                    });
-                }
-
-                // Load the stream URL
-                await player.load(channel.url);
-                console.log(`Successfully loaded ${channel.name}`);
-                loadingIndicator.classList.add('hidden');
-            } catch (error) {
-                loadingIndicator.classList.add('hidden');
-                errorMessage.textContent = 'Error: Unable to load the stream.';
-                errorMessage.classList.remove('hidden');
-                console.error('Error loading stream:', error);
-            }
-        }
-
-        function populateChannels() {
-            const channelList = document.querySelector('.scrollable-grid');
-            channelList.innerHTML = '';
-
-            Object.keys(channels).forEach(key => {
-                const channel = channels[key];
-                const listItem = document.createElement('div');
-                listItem.className = 'channel-item text-white rounded-lg p-3 text-center cursor-pointer font-medium';
-                listItem.tabIndex = 0;
-                listItem.textContent = channel.name;
-                listItem.onclick = () => loadStream(key);
-                channelList.appendChild(listItem);
+          // Handle DRM configuration
+          if (channel.drm && channel.drm.kid && channel.drm.key) {
+            player.configure({
+              drm: {
+                clearKeys: { [channel.drm.kid]: channel.drm.key }
+              }
             });
-        }
+          }
 
-        window.addEventListener('DOMContentLoaded', () => {
-            populateChannels();
-            const defaultChannelKey = Object.keys(channels)[0];
-            if (defaultChannelKey) {
-                loadStream(defaultChannelKey);
-            }
+          await player.load(channel.url); // Load the stream URL
+          loadingSpinner.style.display = 'none'; // Hide loading spinner
+          console.log(`Playing: ${channel.name}`);
+          enterFullScreen(videoElement);
+        } catch (error) {
+          console.error("Error loading channel:", error);
+          alert(`Failed to load channel: ${channel.name}`);
+          loadingSpinner.style.display = 'none'; // Hide loading spinner
+        }
+      }
+
+      function enterFullScreen(element) {
+        if (element.requestFullscreen) {
+          element.requestFullscreen();
+        } else if (element.mozRequestFullScreen) {
+          element.mozRequestFullScreen();
+        } else if (element.webkitRequestFullscreen) {
+          element.webkitRequestFullscreen();
+        } else if (element.msRequestFullscreen) {
+          element.msRequestFullscreen();
+        }
+      }
+
+      function displayChannels(filteredChannels) {
+        channelFrame.innerHTML = ""; // Clear existing channels
+        filteredChannels.forEach((channel, index) => {
+          const button = document.createElement("button");
+          button.textContent = channel.name;
+          button.dataset.index = index;
+          button.onclick = () => {
+            currentChannelIndex = index;
+            loadChannel(channel);
+            updateActiveChannel();
+          };
+          channelFrame.appendChild(button); // Append the button to the channel list
         });
-    </script>
+        updateActiveChannel();
+      }
+
+      function updateActiveChannel() {
+        const buttons = document.querySelectorAll('.channel-frame button');
+        buttons.forEach((btn, idx) => {
+          btn.classList.toggle('active', idx === currentChannelIndex);
+        });
+      }
+
+      // Convert the channels object to an array and initial loading of channels
+      displayChannels(Object.values(channels));
+
+      // Search functionality
+      searchInput.addEventListener("input", () => {
+        const searchTerm = searchInput.value.toLowerCase();
+        const filteredChannels = Object.values(channels).filter(channel =>
+          channel.name.toLowerCase().includes(searchTerm)
+        );
+        displayChannels(filteredChannels);
+      });
+
+      // Play/Pause button
+      playPauseBtn.addEventListener("click", () => {
+        if (videoElement.paused) {
+          videoElement.play();
+          playPauseBtn.textContent = "Pause";
+        } else {
+          videoElement.pause();
+          playPauseBtn.textContent = "Play";
+        }
+      });
+
+      // Fullscreen button
+      fullscreenBtn.addEventListener("click", () => {
+        enterFullScreen(videoElement);
+      });
+
+      // Volume control
+      volumeSlider.addEventListener("input", () => {
+        videoElement.volume = volumeSlider.value;
+      });
+    });
+  </script>
 </body>
 </html>
