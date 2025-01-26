@@ -6,8 +6,8 @@
     <title>NERO TV</title>
 
     <!-- External Scripts -->
-    <script async src="f0a6f.txt" crossorigin="anonymous"></script>
     <script src="https://cdn.tailwindcss.com/"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.12.6/shaka-player.compiled.js" defer></script>
     <script src="channels.js"></script>
     <script src="remote-control.js"></script>
     <script src="search.js"></script>
@@ -16,61 +16,29 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="aucss">
-    <link rel="stylesheet" href="donation.css"> <!-- Donation CSS -->
+    <link rel="stylesheet" href="donation.css">
 
     <!-- Security Scripts -->
     <script>
-        // Disable right-click
-        document.addEventListener("contextmenu", function(e) {
-            e.preventDefault();
-        });
-
-        // Disable common developer tool shortcuts
-        document.addEventListener("keydown", function(e) {
-            // F12 or Ctrl+Shift+I
-            if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && e.keyCode === 73)) {
-                e.preventDefault();
-            }
-            // Ctrl+U
-            if (e.ctrlKey && e.keyCode === 85) {
+        // Disable right-click and developer tools
+        document.addEventListener("contextmenu", (e) => e.preventDefault());
+        document.addEventListener("keydown", (e) => {
+            if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && e.keyCode === 73) || (e.ctrlKey && e.keyCode === 85)) {
                 e.preventDefault();
             }
         });
-
-        // Detect Developer Tools
-        (function() {
-            const devtoolsDetector = document.createElement('div');
-            devtoolsDetector.__proto__ = null;
-            Object.defineProperty(devtoolsDetector, 'id', {
-                get: function() {
-                    alert('Developer tools are open!');
-                    throw new Error('DevTools detected');
-                }
-            });
-
-            setInterval(function() {
-                console.log(devtoolsDetector);
-            }, 1000);
-        })();
     </script>
-
-    <!-- Shaka Player -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.12.6/shaka-player.compiled.js" defer></script>
 </head>
 <body class="bg-black text-white min-h-screen flex items-center justify-center p-5">
 
     <!-- Chat Support -->
     <div class="chat-support">
-        <a href="https://m.me/102903048546561" target="_blank" class="chat-button">
-            <span>💬</span>
-        </a>
+        <a href="https://m.me/102903048546561" target="_blank" class="chat-button"><span>💬</span></a>
     </div>
 
     <!-- Donation Support -->
     <div class="donation-support">
-        <div id="donationButton" class="donation-button">
-            <span>💳</span>
-        </div>
+        <div id="donationButton" class="donation-button"><span>💳</span></div>
         <div id="donationModal" class="hidden donation-modal">
             <div class="modal-content">
                 <img src="https://i.ibb.co/ngQyVtz/Photoroom-20250125-110919.png" alt="Donate via QR Code" class="qr-code">
@@ -81,38 +49,25 @@
 
     <!-- Main Layout Container -->
     <div class="flex flex-col md:flex-row w-full max-w-7xl gap-6">
-        <div class="scrollable-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 bg-gray-900 p-4 rounded-lg w-full md:w-1/3">
-            <!-- Channel items will be populated dynamically -->
-        </div>
+        <!-- Channel List (Left Side) -->
+        <div class="scrollable-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 bg-gray-900 p-4 rounded-lg w-full md:w-1/3"></div>
+
+        <!-- Video Player and Search Bar (Right Side) -->
         <div class="w-full md:w-2/3">
             <div id="loadingIndicator" class="hidden text-center py-5 text-lg font-semibold text-cyan-400">
                 <p> 📺 SELECT CHANNELS</p>
             </div>
-            <video 
-                id="player" 
-                class="w-full aspect-video bg-gray-800 rounded-lg" 
-                autoplay 
-                controls 
-                style="background-image: url('https://media1.giphy.com/media/U3qYN8S0j3bpK/giphy.gif?cid=6c09b952inf9tvtvft9lu5mize70evm7opwtqnei94rimsbl&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=g');">
-            </video>
+            <video id="player" class="w-full aspect-video bg-gray-800 rounded-lg" controls autoplay></video>
             <div class="w-small mt-3">
-                <input 
-                    id="searchBar" 
-                    type="text" 
-                    placeholder="Search channels..." 
-                    class="w-full p-3 rounded-lg bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
-                />
+                <input id="searchBar" type="text" placeholder="Search channels..." class="w-full p-3 rounded-lg bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500" />
             </div>
         </div>
     </div>
+
+    <!-- Error Message -->
     <div id="errorMessage" class="hidden text-center text-red-500 mt-4 text-lg font-semibold"></div>
 
-    <!-- External Scripts -->
-    <script src="auth.js"></script>
-    <script src="off-canvas-menu.js"></script>
-    <script src="donation.js"></script> <!-- Donation JS -->
-
-    <!-- Shaka Player Configuration -->
+    <!-- Scripts -->
     <script>
         async function loadStream(channelKey) {
             const channel = channels[channelKey];
@@ -132,7 +87,8 @@
             try {
                 const player = new shaka.Player(playerElement);
 
-                if (channel.type === 'mpd') {
+                // Configure DRM for MPD streams
+                if (channel.type === 'mpd' && channel.keyId && channel.key) {
                     player.configure({
                         drm: {
                             clearKeys: {
@@ -142,7 +98,9 @@
                     });
                 }
 
+                // Load the stream URL
                 await player.load(channel.url);
+                console.log(`Successfully loaded ${channel.name}`);
                 loadingIndicator.classList.add('hidden');
             } catch (error) {
                 loadingIndicator.classList.add('hidden');
@@ -158,13 +116,11 @@
 
             Object.keys(channels).forEach(key => {
                 const channel = channels[key];
-
                 const listItem = document.createElement('div');
                 listItem.className = 'channel-item text-white rounded-lg p-3 text-center cursor-pointer font-medium';
                 listItem.tabIndex = 0;
                 listItem.textContent = channel.name;
                 listItem.onclick = () => loadStream(key);
-
                 channelList.appendChild(listItem);
             });
         }
