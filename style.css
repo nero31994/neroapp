@@ -19,7 +19,7 @@ body {
 
 /* Scrollable Grid Styling */
 .scrollable-grid {
-    max-height: 300px;
+    max-height: 250px;
     overflow-y: auto;
     background: #1e293b;
     border-radius: 10px;
