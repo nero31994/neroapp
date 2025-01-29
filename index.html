@@ -147,7 +147,8 @@
             } : undefined,
             width: "100%",
             aspectratio: "21:9", // Set to 21:9 aspect ratio
-            autostart: false // Disable autoplay
+            autostart: true, // Enable autoplay
+            mute: false // Unmute the player
         });
 
         // Enter fullscreen immediately when playback starts
@@ -198,6 +199,6 @@
             loadStream(defaultChannelKey);
         }
     });
-    </script>
+</script>
 </body>
 </html>
