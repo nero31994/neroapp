@@ -18,28 +18,23 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="aucss">
-    <link rel="stylesheet" href="donation.css"> <!-- Donation CSS -->
+    <link rel="stylesheet" href="donation.css">
 
     <!-- Security Scripts -->
     <script>
-        // Disable right-click
         document.addEventListener("contextmenu", function(e) {
             e.preventDefault();
         });
 
-        // Disable common developer tool shortcuts
         document.addEventListener("keydown", function(e) {
-            // F12 or Ctrl+Shift+I
             if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && e.keyCode === 73)) {
                 e.preventDefault();
             }
-            // Ctrl+U
             if (e.ctrlKey && e.keyCode === 85) {
                 e.preventDefault();
             }
         });
 
-        // Detect Developer Tools
         (function() {
             const devtoolsDetector = document.createElement('div');
             devtoolsDetector.__proto__ = null;
@@ -55,13 +50,33 @@
             }, 1000);
         })();
     </script>
-     
 </head>
-<body class="bg-black text-white min-h-screen flex items-center justify-center p-5">
+<body class="bg-black text-white min-h-screen flex flex-col items-center p-5">
+    <!-- Top Navigation Bar -->
+    <nav class="bg-gray-900 w-full flex justify-between items-center p-4 shadow-lg">
+        <div class="text-2xl font-bold text-cyan-500">NERO TV</div>
+        <div class="hidden md:flex space-x-4">
+            <a href="#" class="hover:text-cyan-400">Home</a>
+            <a href="#" class="hover:text-cyan-400">Channels</a>
+            <a href="#" class="hover:text-cyan-400">Support</a>
+            <a href="#" class="hover:text-cyan-400">Donate</a>
+        </div>
+        <button id="menuButton" class="md:hidden flex items-center text-cyan-500">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+            </svg>
+        </button>
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden flex-col md:hidden absolute top-16 left-0 bg-gray-900 w-full shadow-lg">
+            <a href="#" class="block px-4 py-2 hover:bg-gray-800">Home</a>
+            <a href="#" class="block px-4 py-2 hover:bg-gray-800">Channels</a>
+            <a href="#" class="block px-4 py-2 hover:bg-gray-800">Support</a>
+            <a href="#" class="block px-4 py-2 hover:bg-gray-800">Donate</a>
+        </div>
+    </nav>
 
     <!-- Chat Support -->
     <div class="chat-support">
-        <!-- Floating Chat Button -->
         <a href="https://m.me/102903048546561" target="_blank" class="chat-button">
             <span>💬</span>
         </a>
@@ -69,11 +84,9 @@
 
     <!-- Donation Support -->
     <div class="donation-support">
-        <!-- Floating Donation Button -->
         <div id="donationButton" class="donation-button">
             <span>💳</span>
         </div>
-        <!-- QR Code Modal -->
         <div id="donationModal" class="hidden donation-modal">
             <div class="modal-content">
                 <img src="https://i.ibb.co/ngQyVtz/Photoroom-20250125-110919.png" alt="Donate via QR Code" class="qr-code">
@@ -82,128 +95,35 @@
         </div>
     </div>
 
-
-
-   
-
     <!-- Main Layout Container -->
     <div class="flex flex-col md:flex-row w-full max-w-7xl gap-6">
-        <!-- Channel List (Left Side) -->
         <div class="scrollable-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 bg-gray-900 p-4 rounded-lg w-full md:w-1/3">
-            <!-- Channel items will be populated dynamically -->
         </div>
 
-        <!-- Video Player and Search Bar (Right Side) -->
         <div class="w-full md:w-2/3">
             <div id="loadingIndicator" class="hidden text-center py-5 text-lg font-semibold text-cyan-400">
                 <p> 📺 SELECT CHANNELS</p>
             </div>
-            <div id="player" 
-                 class="w-full aspect-video bg-gray-800 rounded-lg"
+            <div id="player" class="w-full aspect-video bg-gray-800 rounded-lg"
                  style="background-image: url('https://media1.giphy.com/media/U3qYN8S0j3bpK/giphy.gif?cid=6c09b952inf9tvtvft9lu5mize70evm7opwtqnei94rimsbl&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=g');">
             </div>
-
-            <!-- Search Bar -->
             <div class="w-small mt-4">
-                <input 
-                    id="searchBar" 
-                    type="text" 
-                    placeholder="Search channels..." 
-                    class="w-small p-3 rounded-lg bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
-                />
+                <input id="searchBar" type="text" placeholder="Search channels..." 
+                       class="w-small p-3 rounded-lg bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500" />
             </div>
         </div>
     </div>
 
-    <!-- Error Message -->
     <div id="errorMessage" class="hidden text-center text-red-500 mt-4 text-lg font-semibold"></div>
 
-    <!-- External Scripts -->
-    <script src="auth.js"></script>
-    <script src="off-canvas-menu.js"></script>
-    <script src="donation.js"></script> <!-- Donation JS -->
-
-    <!-- JWPlayer Configuration -->
+    <!-- JavaScript for Mobile Menu Toggle -->
     <script>
-    jwplayer.key = 'XSuP4qMl+9tK17QNb+4+th2Pm9AWgMO/cYH8CI0HGGr7bdjo';
+        const menuButton = document.getElementById("menuButton");
+        const mobileMenu = document.getElementById("mobileMenu");
 
-    function loadStream(channelKey) {
-        const channel = channels[channelKey];
-        const loadingIndicator = document.getElementById('loadingIndicator');
-        const errorMessage = document.getElementById('errorMessage');
-        const playerElement = document.getElementById('player');
-
-        if (!channel) {
-            errorMessage.textContent = 'Error: Channel not found!';
-            errorMessage.classList.remove('hidden');
-            return;
-        }
-
-        loadingIndicator.classList.remove('hidden');
-        errorMessage.classList.add('hidden');
-
-        jwplayer("player").setup({
-            file: channel.url,
-            type: channel.type,
-            drm: channel.type === 'mpd' ? {
-                clearkey: {
-                    keyId: channel.keyId,
-                    key: channel.key
-                }
-            } : undefined,
-            width: "100%",
-            aspectratio: "21:9", // Set to 21:9 aspect ratio
-            autostart: true
+        menuButton.addEventListener("click", () => {
+            mobileMenu.classList.toggle("hidden");
         });
-
-        // Enter fullscreen immediately when playback starts
-        jwplayer("player").on('play', () => {
-            if (playerElement.requestFullscreen) {
-                playerElement.requestFullscreen().catch((err) => {
-                    console.warn('Fullscreen request failed:', err);
-                });
-            } else if (playerElement.webkitRequestFullscreen) { // Safari support
-                playerElement.webkitRequestFullscreen();
-            } else if (playerElement.msRequestFullscreen) { // IE/Edge support
-                playerElement.msRequestFullscreen();
-            }
-        });
-
-        jwplayer("player").on('ready', () => {
-            loadingIndicator.classList.add('hidden');
-        });
-
-        jwplayer("player").on('error', () => {
-            loadingIndicator.classList.add('hidden');
-            errorMessage.textContent = 'Error: Unable to load the stream.';
-            errorMessage.classList.remove('hidden');
-        });
-    }
-
-    function populateChannels() {
-        const channelList = document.querySelector('.scrollable-grid');
-        channelList.innerHTML = '';  
-
-        Object.keys(channels).forEach(key => {
-            const channel = channels[key];
-
-            const listItem = document.createElement('div');
-            listItem.className = 'channel-item text-white rounded-lg p-3 text-center cursor-pointer font-medium';
-            listItem.tabIndex = 0;
-            listItem.textContent = channel.name;
-            listItem.onclick = () => loadStream(key);
-
-            channelList.appendChild(listItem);
-        });
-    }
-
-    window.addEventListener('DOMContentLoaded', () => {
-        populateChannels(); 
-        const defaultChannelKey = Object.keys(channels)[0];
-        if (defaultChannelKey) {
-            loadStream(defaultChannelKey);
-        }
-    });
     </script>
 </body>
 </html>
