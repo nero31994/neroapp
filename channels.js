@@ -5,9 +5,7 @@ const channels = {
         name: 'TEST',
         url: 'http://143.44.136.110:6910/001/2/ch00000090990000001274/manifest.mpd?virtualDomain=001.live_hls.zte.com',
         type: 'mpd',
-        drm: {
-            widevine: {
-                url: 'http://143.44.136.74:9443/widevine/?deviceId=02:00:00:00:00:00'
+        url: 'http://143.44.136.74:9443/widevine/?deviceId=02:00:00:00:00:00'
 	    },
 GTV: {
         name: 'GTV',
