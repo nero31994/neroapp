@@ -135,14 +135,12 @@
     <script src="donation.js"></script> <!-- Donation JS -->
 
     <!-- JWPlayer Configuration -->
-    <script>
     jwplayer.key = 'XSuP4qMl+9tK17QNb+4+th2Pm9AWgMO/cYH8CI0HGGr7bdjo';
 
 function loadStream(channelKey) {
     const channel = channels[channelKey];
     const loadingIndicator = document.getElementById('loadingIndicator');
     const errorMessage = document.getElementById('errorMessage');
-    const playerElement = document.getElementById('player');
 
     if (!channel) {
         errorMessage.textContent = 'Error: Channel not found!';
@@ -163,19 +161,10 @@ function loadStream(channelKey) {
             }
         } : undefined,
         width: "100%",
-        aspectratio: "21:9", 
-        autostart: true, 
-        mute: false 
+        aspectratio: "21:9",
+        autostart: true,
+        mute: false
     });
-
-    // Request fullscreen as soon as the user selects a channel
-    if (playerElement.requestFullscreen) {
-        playerElement.requestFullscreen().catch(err => console.warn('Fullscreen request failed:', err));
-    } else if (playerElement.webkitRequestFullscreen) { 
-        playerElement.webkitRequestFullscreen();
-    } else if (playerElement.msRequestFullscreen) { 
-        playerElement.msRequestFullscreen();
-    }
 
     jwplayer("player").on('ready', () => {
         loadingIndicator.classList.add('hidden');
@@ -186,6 +175,20 @@ function loadStream(channelKey) {
         errorMessage.textContent = 'Error: Unable to load the stream.';
         errorMessage.classList.remove('hidden');
     });
+}
+
+function enterFullscreen() {
+    const playerElement = document.getElementById('player');
+    
+    if (playerElement.requestFullscreen) {
+        playerElement.requestFullscreen();
+    } else if (playerElement.webkitRequestFullscreen) { 
+        playerElement.webkitRequestFullscreen();
+    } else if (playerElement.msRequestFullscreen) { 
+        playerElement.msRequestFullscreen();
+    } else {
+        console.warn("Fullscreen not supported on this browser.");
+    }
 }
 
 function populateChannels() {
@@ -199,14 +202,18 @@ function populateChannels() {
         listItem.className = 'channel-item text-white rounded-lg p-3 text-center cursor-pointer font-medium';
         listItem.tabIndex = 0;
         listItem.textContent = channel.name;
-        listItem.onclick = () => loadStream(key);
+
+        listItem.onclick = () => {
+            enterFullscreen();  // Trigger fullscreen on user click
+            loadStream(key);
+        };
 
         channelList.appendChild(listItem);
     });
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-    populateChannels(); 
+    populateChannels();
     const defaultChannelKey = Object.keys(channels)[0];
     if (defaultChannelKey) {
         loadStream(defaultChannelKey);
