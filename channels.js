@@ -4,7 +4,6 @@ const channels = {
     Teleradyo: {
         name: 'TELERADYO (CON)',
         url: 'http://143.44.136.110:6910/001/2/ch00000090990000001249/manifest.mpd?virtualDomain=001.live_hls.zte.com',
-        type: 'mpd',
         license_type: 'com.widevine.alpha',
         license_key: 'http://143.44.136.74:9443/widevine/?deviceId=02:00:00:00:00:00'
     },	
