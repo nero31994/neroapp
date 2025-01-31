@@ -1,11 +1,6 @@
 
 const channels = {
-TEST: {
-    name: 'TEST',
-    url: 'http://143.44.136.110:6910/001/2/ch00000090990000001093/manifest.mpd',
-    type: 'mpd',
-    licenseUrl: 'http://143.44.136.74:9443/'
-    }, 
+
 GTV: {
         name: 'GTV',
         url: 'https://ott.studentsdemo.com/stream/phcathenatv/gtv/master.m3u8?u=phc&p=1ed3395bba4d481a74e631943df9643663da8f300a8edececcb8b7da46349f01',
@@ -207,8 +202,10 @@ onenews_hd: {
          },	 
     cinemo: {
         name: 'CINE MO!',
-        url: 'https://cinemo-abscbn-ono.amagi.tv/playlist.m3u8',
-        type: 'hls'
+        url: 'https://d1bail49udbz1k.cloudfront.net/out/v1/3a895f368f4a467c9bca0962559efc19/index.mpd',
+       keyId: 'dcbdaaa6662d4188bdf97f9f0ca5e830',
+        key: '31e752b441bd2972f2b98a4b1bc1c7a1',
+      b type: 'mpd'
          },
 	pbo: {
         name: 'PBO',
