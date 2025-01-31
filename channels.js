@@ -2,9 +2,9 @@
 const channels = {
 TEST: {
     name: 'TEST',
-    url: 'http://143.44.136.110:6910/001/2/ch00000090990000001093/manifest.mpd?virtualDomain=001.live_hls.zte.com',
+    url: 'http://143.44.136.110:6910/001/2/ch00000090990000001093/manifest.mpd',
     type: 'mpd',
-    licenseUrl: 'http://143.44.136.74:9443/widevine/?deviceId=02:00:00:00:00:00'
+    licenseUrl: 'http://143.44.136.74:9443/'
     }, 
 GTV: {
         name: 'GTV',
