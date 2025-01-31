@@ -203,9 +203,9 @@ onenews_hd: {
     cinemo: {
         name: 'CINE MO!',
         url: 'https://d1bail49udbz1k.cloudfront.net/out/v1/3a895f368f4a467c9bca0962559efc19/index.mpd',
-       keyId: 'dcbdaaa6662d4188bdf97f9f0ca5e830',
-        key: '31e752b441bd2972f2b98a4b1bc1c7a1',
-      b type: 'mpd'
+       keyId: 'aa8aebe35ccc4541b7ce6292efcb1bfb',
+        key: 'aab1df109d22fc5d7e3ec121ddf24e5f',
+       type: 'mpd'
          },
 	pbo: {
         name: 'PBO',
